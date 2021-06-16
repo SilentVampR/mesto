@@ -1,0 +1,8 @@
+.element__image {
+  width: 100%;
+  height: calc(100% - 79px);
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+}

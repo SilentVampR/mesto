@@ -1,0 +1,22 @@
+.profile__about {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  color: white;
+  text-align: center;
+  padding: 0;
+  margin: 14px 0 0;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  -ms-grid-column: 2;
+      grid-column-start: 2;
+}
+
+@media screen and (min-width: 576px) {
+  .profile__about {
+    text-align: left;
+  }
+}

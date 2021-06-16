@@ -1,0 +1,11 @@
+.page__wrapper {
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .page__wrapper {
+    width: 84.635vw;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./pages/index.css">
+    <title>Mesto - Russia by Евгений Корсунов</title>
+  </head>
+  <body class="page">
+    <section class="popup">
+      <form class="popup__container">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input type="text" class="popup__input popup__input_author_name" placeholder="Имя">
+        <input type="text" class="popup__input popup__input_author_about" placeholder="Профессия">
+        <button class="popup__submit-button">Сохранить</button>
+        <button class="popup__close-button"></button>
+      </form>
+    </section>
+    <div class="page__wrapper">
+      <header class="header">
+        <div class="logo logo_header"></div>
+      </header>
+      <main class="content">
+        <section class="profile">
+          <img src="./images/kusto_avatar.jpg" alt="Жак-Ив Кусто" class="profile__avatar">
+          <div class="profile__info">
+            <h1 class="profile__name">Жак-Ив Кусто</h1><button class="profile__edit-button"></button>
+            <p class="profile__about">Исследователь океана</p>
+          </div>
+          <button class="add-button add-button_profile"></button>
+        </section>
+        <section class="elements">
+          <div class="element">
+            <img src="./images/river_tom_01.jpg" alt="" class="element__image">
+            <div class="element__footer">
+              <h2 class="element__title">Воскресеновка</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </div>
+          <div class="element">
+            <img src="./images/river_tom_02.jpg" alt="Берег реки зеленая трава и река" class="element__image">
+            <div class="element__footer">
+              <h2 class="element__title">Серышевский район</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </div>
+          <div class="element">
+            <img src="./images/river_tom_03.jpg" alt="Река и берег Томи" class="element__image">
+            <div class="element__footer">
+              <h2 class="element__title">Река Томь</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </div>
+          <div class="element">
+            <img src="./images/river_tom_04.jpg" alt="Безоблачное небо и ветки деревьев" class="element__image">
+            <div class="element__footer">
+              <h2 class="element__title">Небо над рекой Томь</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </div>
+          <div class="element">
+            <img src="./images/river_tom_05.jpg" alt="Ночной костёр" class="element__image">
+            <div class="element__footer">
+              <h2 class="element__title">Ночной костёр</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </div>
+          <div class="element">
+            <img src="./images/river_tom_06.jpg" alt="Мокрый песок на берегу реки" class="element__image">
+            <div class="element__footer">
+              <h2 class="element__title">Песчаный берег Томи</h2>
+              <button class="element__like-button"></button>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="footer">
+        <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
+      </footer>
+      <script src="./scripts/index.js"></script>
+    </div>
+  </body>
+</html>
