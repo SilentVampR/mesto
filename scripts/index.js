@@ -151,8 +151,26 @@ const addElement = (name, link) =>{
       sectionElements.prepend(elementContainer);
       elementContainer.querySelector('.element__like-button').addEventListener('click', likeAdd);
       elementContainer.querySelector('.element__delete-button').addEventListener('click', deletePlace);
+      elementContainer.querySelector('.element__image').addEventListener('click', popupOpenPhoto);
     }
 }
+
+const popupSectionPhoto  = document.querySelector('.popup__photo');
+const popupPhotoCloseButton = popupSectionPhoto.querySelector('.popup__close-button');
+const popupPhotoImage = popupSectionPhoto.querySelector('.popup__image');
+const popupPhotoCaption = popupSectionPhoto.querySelector('.popup__image-caption');
+
+const popupClosePhoto = () => {
+  popupSectionPhoto.classList.remove('popup_opened');
+}
+
+const popupOpenPhoto = (evt) => {
+  popupSectionPhoto.classList.add('popup_opened');
+  popupPhotoImage.src = evt.srcElement.src;
+  popupPhotoCaption.textContent = evt.srcElement.alt;
+}
+
+popupPhotoCloseButton.addEventListener('click', popupClosePhoto);
 
 /* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
 
