@@ -53,6 +53,8 @@ const popupOpenNewPlace = () => {
 const addPlace = (evt) => {
   evt.preventDefault();
   addElement(popupInputNewPlaceName.value,popupInputNewPlaceUrl.value);
+  popupInputNewPlaceName.value = '';
+  popupInputNewPlaceUrl.value = '';
   popupCloseNewPlace();
 }
 
@@ -136,32 +138,28 @@ const likeAdd = (evt) => {
   evt.target.classList.add('element__like-button_active');
 }
 
-const addElement = (name,link) =>{
+const deletePlace = (evt) => {
+  evt.target.closest('.element').remove();
+}
+
+const addElement = (name, link) =>{
     if(name && link){
       const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
       elementContainer.querySelector('.element__title').textContent = name;
       elementContainer.querySelector('.element__image').src = link;
       elementContainer.querySelector('.element__image').alt = name;
-      sectionElements.append(elementContainer);
+      sectionElements.prepend(elementContainer);
+      elementContainer.querySelector('.element__like-button').addEventListener('click', likeAdd);
+      elementContainer.querySelector('.element__delete-button').addEventListener('click', deletePlace);
     }
 }
+
+/* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
 
 const loadElements = () => {
   initialElements.forEach((element) => {
     addElement(element.name, element.link);
   })
 }
+
 loadElements();
-
-const countButtons = () => {
-
-}
-
-let likeButton = sectionElements.querySelectorAll('.element__like-button');
-
-for(var i = 0; i < likeButton.length; i++) {
-  likeButton[i].addEventListener('click', likeAdd);
-}
-
-
-const deleteButton = sectionElements.querySelectorAll('element__delete-button');
