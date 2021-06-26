@@ -50,6 +50,10 @@ const popupOpenNewPlace = () => {
   popupSectionNewPlace.classList.add('popup_opened');
 }
 
+const popupCloseNewPlace = () => {
+  popupSectionNewPlace.classList.remove('popup_opened');
+};
+
 const addPlace = (evt) => {
   evt.preventDefault();
   addElement(popupInputNewPlaceName.value,popupInputNewPlaceUrl.value);
@@ -57,10 +61,6 @@ const addPlace = (evt) => {
   popupInputNewPlaceUrl.value = '';
   popupCloseNewPlace();
 }
-
-const popupCloseNewPlace = () => {
-  popupSectionNewPlace.classList.remove('popup_opened');
-};
 
 newPlaceAddButton.addEventListener('click', popupOpenNewPlace);
 
@@ -143,7 +143,7 @@ const deletePlace = (evt) => {
 }
 
 const addElement = (name, link) =>{
-    if(name && link){
+    if(name && link && (link.includes('http://') || link.includes('https://') || link.includes('.jpg')  || link.includes('.jpeg') || link.includes('.png'))) {
       const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
       elementContainer.querySelector('.element__title').textContent = name;
       elementContainer.querySelector('.element__image').src = link;
@@ -152,6 +152,8 @@ const addElement = (name, link) =>{
       elementContainer.querySelector('.element__like-button').addEventListener('click', likeAdd);
       elementContainer.querySelector('.element__delete-button').addEventListener('click', deletePlace);
       elementContainer.querySelector('.element__image').addEventListener('click', popupOpenPhoto);
+    }else{
+      alert('Не все поля заполнены корректно!');
     }
 }
 
@@ -160,14 +162,14 @@ const popupPhotoCloseButton = popupSectionPhoto.querySelector('.popup__close-but
 const popupPhotoImage = popupSectionPhoto.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionPhoto.querySelector('.popup__image-caption');
 
-const popupClosePhoto = () => {
-  popupSectionPhoto.classList.remove('popup_opened');
-}
-
 const popupOpenPhoto = (evt) => {
   popupSectionPhoto.classList.add('popup_opened');
   popupPhotoImage.src = evt.srcElement.src;
   popupPhotoCaption.textContent = evt.srcElement.alt;
+}
+
+const popupClosePhoto = () => {
+  popupSectionPhoto.classList.remove('popup_opened');
 }
 
 popupPhotoCloseButton.addEventListener('click', popupClosePhoto);
