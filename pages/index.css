@@ -29,7 +29,7 @@
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
 
 /* POPUP IMAGE */
-@import url(../blocks/popup/__image-overlay/popup__image-overlay.css);
+@import url(../blocks/image-overlay/image-overlay.css);
 @import url(../blocks/popup/__image-container/popup__image-container.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__image-caption/popup__image-caption.css);

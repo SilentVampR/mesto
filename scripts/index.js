@@ -113,7 +113,7 @@ const createElement = (name, link) =>{
     }
 }
 
-const popupSectionImage  = document.querySelector('.popup__image-overlay');
+const popupSectionImage  = document.querySelector('.image-overlay');
 const popupPhotoCloseButton = popupSectionImage.querySelector('.popup__close-button');
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
