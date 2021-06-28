@@ -1,3 +1,9 @@
+/* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
+
+const openClosePopup = (popup) => {
+  popup.classList.toggle('popup_opened');
+}
+
 /*PROFILE*/
 const profileSection  = document.querySelector('.profile');
 const profileButton = profileSection.querySelector('.profile__edit-button');
@@ -12,27 +18,21 @@ const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__in
 const popupProfileEditCloseButton = popupSectionProfileEdit.querySelector('.popup__close-button');
 const popupProfileEditSubmitButton = popupSectionProfileEdit.querySelector('.popup__submit-button');
 
-const popupOpenProfileEdit = function() {
-  popupSectionProfileEdit.classList.add('popup_opened');
+const openPopupProfileEdit = () => {
+  openClosePopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.innerText;
   popupInputProfileAbout.value = profileabout.innerText;
 };
 
-const popupCloseProfileEdit = function() {
-  popupSectionProfileEdit.classList.remove('popup_opened');
-};
-
-const editProfile = function(evt) {
+const editProfile = (evt) => {
   evt.preventDefault();
   profileName.textContent = popupInputProfileName.value;
   profileabout.textContent = popupInputProfileAbout.value;
-  popupCloseProfileEdit();
+  openClosePopup(popupSectionProfileEdit);
 }
 
-profileButton.addEventListener('click', popupOpenProfileEdit);
-
-popupProfileEditCloseButton.addEventListener('click', popupCloseProfileEdit);
-
+profileButton.addEventListener('click', openPopupProfileEdit);
+popupProfileEditCloseButton.addEventListener('click', () => openClosePopup(popupSectionProfileEdit));
 popupProfileEditSubmitButton.addEventListener('click', editProfile);
 
 /*NEW PLACE*/
@@ -46,66 +46,22 @@ const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_
 const popupNewPlaceCloseButton = popupSectionNewPlace.querySelector('.popup__close-button');
 const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__submit-button');
 
-const popupOpenNewPlace = () => {
-  popupSectionNewPlace.classList.add('popup_opened');
-}
-
-const popupCloseNewPlace = () => {
-  popupSectionNewPlace.classList.remove('popup_opened');
-};
-
 const addPlace = (evt) => {
   evt.preventDefault();
   addElement(popupInputNewPlaceName.value,popupInputNewPlaceUrl.value);
   popupInputNewPlaceName.value = '';
   popupInputNewPlaceUrl.value = '';
-  popupCloseNewPlace();
+  openClosePopup(popupSectionNewPlace);
 }
 
-newPlaceAddButton.addEventListener('click', popupOpenNewPlace);
-
-popupNewPlaceCloseButton.addEventListener('click', popupCloseNewPlace);
-
+newPlaceAddButton.addEventListener('click', () => openClosePopup(popupSectionNewPlace));
+popupNewPlaceCloseButton.addEventListener('click', () => openClosePopup(popupSectionNewPlace));
 popupNewPlaceSubmitButton.addEventListener('click', addPlace);
 
 /*ELEMENTS*/
 
 const sectionElements = document.querySelector('.elements');
-
 const elementTemplate = sectionElements.querySelector('#elementTemplate').content;
-
-/*const initialElements = [
-  {
-    name: 'Воскресеновка',
-    alt: 'Берег реки покрытый зеленой травой.',
-    link: './images/river_tom_01.jpg'
-  },
-  {
-    name: 'Серышевский район',
-    alt: 'Берег реки зеленая трава и спокойная река.',
-    link: './images/river_tom_02.jpg'
-  },
-  {
-    name: 'Река Томь',
-    alt: 'Зеркальная поверхность реки, вдали виднеется берег с деревьями. Множество белых облаков на небе.',
-    link: './images/river_tom_03.jpg'
-  },
-  {
-    name: 'Небо над рекой Томь',
-    alt: 'Безоблачное небо и кроны деревьев.',
-    link: './images/river_tom_04.jpg'
-  },
-  {
-    name: 'Ночной костёр',
-    alt: 'Ночной костёр.',
-    link: './images/river_tom_05.jpg'
-  },
-  {
-    name: 'Песчаный берег Томи',
-    alt: 'Мокрый песок на берегу реки.',
-    link: './images/river_tom_06.jpg'
-  }
-];*/
 
 const initialElements = [
   {
@@ -134,7 +90,7 @@ const initialElements = [
   }
 ];
 
-const likeAdd = (evt) => {
+const makeLikeActive = (evt) => {
   evt.target.classList.add('element__like-button_active');
 }
 
@@ -149,30 +105,26 @@ const addElement = (name, link) =>{
       elementContainer.querySelector('.element__image').src = link;
       elementContainer.querySelector('.element__image').alt = name;
       sectionElements.prepend(elementContainer);
-      elementContainer.querySelector('.element__like-button').addEventListener('click', likeAdd);
+      elementContainer.querySelector('.element__like-button').addEventListener('click', makeLikeActive);
       elementContainer.querySelector('.element__delete-button').addEventListener('click', deletePlace);
-      elementContainer.querySelector('.element__image').addEventListener('click', popupOpenPhoto);
+      elementContainer.querySelector('.element__image').addEventListener('click', openPopupPhoto);
     }else{
       alert('Не все поля заполнены корректно!');
     }
 }
 
-const popupSectionPhoto  = document.querySelector('.popup__photo');
-const popupPhotoCloseButton = popupSectionPhoto.querySelector('.popup__close-button');
-const popupPhotoImage = popupSectionPhoto.querySelector('.popup__image');
-const popupPhotoCaption = popupSectionPhoto.querySelector('.popup__image-caption');
+const popupSectionImage  = document.querySelector('.popup__image-overlay');
+const popupPhotoCloseButton = popupSectionImage.querySelector('.popup__close-button');
+const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
+const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
-const popupOpenPhoto = (evt) => {
-  popupSectionPhoto.classList.add('popup_opened');
+const openPopupPhoto = (evt) => {
+  openClosePopup(popupSectionImage);
   popupPhotoImage.src = evt.srcElement.src;
   popupPhotoCaption.textContent = evt.srcElement.alt;
 }
 
-const popupClosePhoto = () => {
-  popupSectionPhoto.classList.remove('popup_opened');
-}
-
-popupPhotoCloseButton.addEventListener('click', popupClosePhoto);
+popupPhotoCloseButton.addEventListener('click', () => openClosePopup(popupSectionImage));
 
 /* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
 

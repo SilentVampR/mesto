@@ -10,21 +10,25 @@
 @import url(../blocks/page/__wrapper/page__wrapper.css);
 @import url(../blocks/content/content.css);
 
-/* OVERLAY */
+/* POPUP */
 @import url(../blocks/popup/popup.css);
+@import url(../blocks/popup/__profile-edit/popup__profile-edit.css);
+@import url(../blocks/popup/__new-place/popup__new-place.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 
-/* FORM */
+/* FORM EDIT-PROFILE + NEW-PLACE */
 @import url(../blocks/popup/__form-container/popup__form-container.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__input/_author/popup__input_author_name.css);
 @import url(../blocks/popup/__input/_author/popup__input_author_about.css);
+@import url(../blocks/popup/__input/_place/popup__input_place_name.css);
+@import url(../blocks/popup/__input/_place/popup__input_place_url.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
 
 /* POPUP IMAGE */
-@import url(../blocks/popup/__photo/popup__photo.css);
+@import url(../blocks/popup/__image-overlay/popup__image-overlay.css);
 @import url(../blocks/popup/__image-container/popup__image-container.css);
 @import url(../blocks/popup/__image/popup__image.css);
 @import url(../blocks/popup/__image-caption/popup__image-caption.css);
