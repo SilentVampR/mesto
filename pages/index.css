@@ -12,12 +12,13 @@
 
 /* POPUP */
 @import url(../blocks/popup/popup.css);
-@import url(../blocks/popup/__profile-edit/popup__profile-edit.css);
-@import url(../blocks/popup/__new-place/popup__new-place.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
 
 /* FORM EDIT-PROFILE + NEW-PLACE */
+@import url(../blocks/profile-edit/profile-edit.css);
+@import url(../blocks/new-place/new-place.css);
+
 @import url(../blocks/popup/__form-container/popup__form-container.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__input/popup__input.css);

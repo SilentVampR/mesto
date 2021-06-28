@@ -10,7 +10,7 @@ const profileButton = profileSection.querySelector('.profile__edit-button');
 const profileName = profileSection.querySelector('.profile__name');
 const profileabout = profileSection.querySelector('.profile__about');
 
-const popupSectionProfileEdit = document.querySelector('.popup__profile-edit');
+const popupSectionProfileEdit = document.querySelector('.profile-edit');
 
 const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
 const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
@@ -38,7 +38,7 @@ popupProfileEditSubmitButton.addEventListener('click', editProfile);
 /*NEW PLACE*/
 const newPlaceAddButton = document.querySelector('.add-button');
 
-const popupSectionNewPlace = document.querySelector('.popup__new-place');
+const popupSectionNewPlace = document.querySelector('.new-place');
 
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
@@ -46,9 +46,9 @@ const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_
 const popupNewPlaceCloseButton = popupSectionNewPlace.querySelector('.popup__close-button');
 const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__submit-button');
 
-const addPlace = (evt) => {
+const addNewElement = (evt) => {
   evt.preventDefault();
-  addElement(popupInputNewPlaceName.value,popupInputNewPlaceUrl.value);
+  createElement(popupInputNewPlaceName.value,popupInputNewPlaceUrl.value);
   popupInputNewPlaceName.value = '';
   popupInputNewPlaceUrl.value = '';
   openClosePopup(popupSectionNewPlace);
@@ -56,7 +56,7 @@ const addPlace = (evt) => {
 
 newPlaceAddButton.addEventListener('click', () => openClosePopup(popupSectionNewPlace));
 popupNewPlaceCloseButton.addEventListener('click', () => openClosePopup(popupSectionNewPlace));
-popupNewPlaceSubmitButton.addEventListener('click', addPlace);
+popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
 
 /*ELEMENTS*/
 
@@ -94,11 +94,11 @@ const makeLikeActive = (evt) => {
   evt.target.classList.add('element__like-button_active');
 }
 
-const deletePlace = (evt) => {
+const deleteElement = (evt) => {
   evt.target.closest('.element').remove();
 }
 
-const addElement = (name, link) =>{
+const createElement = (name, link) =>{
     if(name && link && (link.includes('http://') || link.includes('https://') || link.includes('.jpg')  || link.includes('.jpeg') || link.includes('.png'))) {
       const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
       elementContainer.querySelector('.element__title').textContent = name;
@@ -106,8 +106,8 @@ const addElement = (name, link) =>{
       elementContainer.querySelector('.element__image').alt = name;
       sectionElements.prepend(elementContainer);
       elementContainer.querySelector('.element__like-button').addEventListener('click', makeLikeActive);
-      elementContainer.querySelector('.element__delete-button').addEventListener('click', deletePlace);
-      elementContainer.querySelector('.element__image').addEventListener('click', openPopupPhoto);
+      elementContainer.querySelector('.element__delete-button').addEventListener('click', deleteElement);
+      elementContainer.querySelector('.element__image').addEventListener('click', openPopupImage);
     }else{
       alert('Не все поля заполнены корректно!');
     }
@@ -118,7 +118,7 @@ const popupPhotoCloseButton = popupSectionImage.querySelector('.popup__close-but
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
-const openPopupPhoto = (evt) => {
+const openPopupImage = (evt) => {
   openClosePopup(popupSectionImage);
   popupPhotoImage.src = evt.srcElement.src;
   popupPhotoCaption.textContent = evt.srcElement.alt;
@@ -130,7 +130,7 @@ popupPhotoCloseButton.addEventListener('click', () => openClosePopup(popupSectio
 
 const loadElements = () => {
   initialElements.forEach((element) => {
-    addElement(element.name, element.link);
+    createElement(element.name, element.link);
   })
 }
 
