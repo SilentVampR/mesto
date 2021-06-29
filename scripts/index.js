@@ -24,8 +24,8 @@ const popupProfileEditSubmitButton = popupSectionProfileEdit.querySelector('.pop
 
 const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
-  popupInputProfileName.value = profileName.innerText;
-  popupInputProfileAbout.value = profileabout.innerText;
+  popupInputProfileName.value = profileName.textContent;
+  popupInputProfileAbout.value = profileabout.textContent;
 };
 
 const editProfile = (evt) => {
