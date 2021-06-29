@@ -1,7 +1,11 @@
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
 
-const openClosePopup = (popup) => {
-  popup.classList.toggle('popup_opened');
+const closePopup = (popup) => {
+  popup.classList.remove('popup_opened');
+}
+
+const openPopup = (popup) => {
+  popup.classList.add('popup_opened');
 }
 
 /*PROFILE*/
@@ -19,7 +23,7 @@ const popupProfileEditCloseButton = popupSectionProfileEdit.querySelector('.popu
 const popupProfileEditSubmitButton = popupSectionProfileEdit.querySelector('.popup__submit-button');
 
 const openPopupProfileEdit = () => {
-  openClosePopup(popupSectionProfileEdit);
+  openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.innerText;
   popupInputProfileAbout.value = profileabout.innerText;
 };
@@ -28,11 +32,11 @@ const editProfile = (evt) => {
   evt.preventDefault();
   profileName.textContent = popupInputProfileName.value;
   profileabout.textContent = popupInputProfileAbout.value;
-  openClosePopup(popupSectionProfileEdit);
+  closePopup(popupSectionProfileEdit);
 }
 
 profileButton.addEventListener('click', openPopupProfileEdit);
-popupProfileEditCloseButton.addEventListener('click', () => openClosePopup(popupSectionProfileEdit));
+popupProfileEditCloseButton.addEventListener('click', () => closePopup(popupSectionProfileEdit));
 popupProfileEditSubmitButton.addEventListener('click', editProfile);
 
 /*NEW PLACE*/
@@ -48,47 +52,26 @@ const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__su
 
 const addNewElement = (evt) => {
   evt.preventDefault();
-  createElement(popupInputNewPlaceName.value,popupInputNewPlaceUrl.value);
-  popupInputNewPlaceName.value = '';
-  popupInputNewPlaceUrl.value = '';
-  openClosePopup(popupSectionNewPlace);
+  const newElementName = popupInputNewPlaceName.value;
+  const newElementLink = popupInputNewPlaceUrl.value;
+  if(newElementName && newElementLink && (newElementLink.includes('http://') || newElementLink.includes('https://') || newElementLink.includes('.jpg')  || newElementLink.includes('.jpeg') || newElementLink.includes('.png'))) {
+    sectionElements.prepend(createElement(newElementName,newElementLink));
+    popupInputNewPlaceName.value = '';
+    popupInputNewPlaceUrl.value = '';
+    closePopup(popupSectionNewPlace);
+  }else{
+    alert('Не все поля заполнены корректно!');
+  }
 }
 
-newPlaceAddButton.addEventListener('click', () => openClosePopup(popupSectionNewPlace));
-popupNewPlaceCloseButton.addEventListener('click', () => openClosePopup(popupSectionNewPlace));
+newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
+popupNewPlaceCloseButton.addEventListener('click', () => closePopup(popupSectionNewPlace));
 popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
 
 /*ELEMENTS*/
 
 const sectionElements = document.querySelector('.elements');
 const elementTemplate = sectionElements.querySelector('#elementTemplate').content;
-
-const initialElements = [
-  {
-    name: 'Воскресеновка',
-    link: './images/river_tom_01.jpg'
-  },
-  {
-    name: 'Серышевский район',
-    link: './images/river_tom_02.jpg'
-  },
-  {
-    name: 'Река Томь',
-    link: './images/river_tom_03.jpg'
-  },
-  {
-    name: 'Небо над рекой Томь',
-    link: './images/river_tom_04.jpg'
-  },
-  {
-    name: 'Ночной костёр',
-    link: './images/river_tom_05.jpg'
-  },
-  {
-    name: 'Песчаный берег Томи',
-    link: './images/river_tom_06.jpg'
-  }
-];
 
 const makeLikeActive = (evt) => {
   evt.target.classList.add('element__like-button_active');
@@ -98,40 +81,39 @@ const deleteElement = (evt) => {
   evt.target.closest('.element').remove();
 }
 
-const createElement = (name, link) =>{
-    if(name && link && (link.includes('http://') || link.includes('https://') || link.includes('.jpg')  || link.includes('.jpeg') || link.includes('.png'))) {
-      const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
-      elementContainer.querySelector('.element__title').textContent = name;
-      elementContainer.querySelector('.element__image').src = link;
-      elementContainer.querySelector('.element__image').alt = name;
-      sectionElements.prepend(elementContainer);
-      elementContainer.querySelector('.element__like-button').addEventListener('click', makeLikeActive);
-      elementContainer.querySelector('.element__delete-button').addEventListener('click', deleteElement);
-      elementContainer.querySelector('.element__image').addEventListener('click', openPopupImage);
-    }else{
-      alert('Не все поля заполнены корректно!');
-    }
-}
-
 const popupSectionImage  = document.querySelector('.image-overlay');
 const popupPhotoCloseButton = popupSectionImage.querySelector('.popup__close-button');
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
 const openPopupImage = (evt) => {
-  openClosePopup(popupSectionImage);
+  openPopup(popupSectionImage);
   popupPhotoImage.src = evt.srcElement.src;
+  popupPhotoImage.alt = evt.srcElement.alt;
   popupPhotoCaption.textContent = evt.srcElement.alt;
 }
 
-popupPhotoCloseButton.addEventListener('click', () => openClosePopup(popupSectionImage));
+popupPhotoCloseButton.addEventListener('click', () => closePopup(popupSectionImage));
+
+const createElement = (imgName, imgLink) => {
+  const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
+  elementContainer.querySelector('.element__title').textContent = imgName;
+  const elementImage = elementContainer.querySelector('.element__image');
+  elementImage.src = imgLink;
+  elementImage.alt = imgName;
+  elementContainer.querySelector('.element__like-button').addEventListener('click', makeLikeActive);
+  elementContainer.querySelector('.element__delete-button').addEventListener('click', deleteElement);
+  elementImage.addEventListener('click', openPopupImage);
+  return elementContainer;
+}
+
 
 /* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
 
-const loadElements = () => {
+const loadElements = (container) => {
   initialElements.forEach((element) => {
-    createElement(element.name, element.link);
+    container.prepend(createElement(element.name, element.link));
   })
 }
 
-loadElements();
+loadElements(sectionElements);
