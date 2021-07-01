@@ -12,7 +12,7 @@ const openPopup = (popup) => {
 const profileSection  = document.querySelector('.profile');
 const profileButton = profileSection.querySelector('.profile__edit-button');
 const profileName = profileSection.querySelector('.profile__name');
-const profileabout = profileSection.querySelector('.profile__about');
+const profileAbout = profileSection.querySelector('.profile__about');
 
 const popupSectionProfileEdit = document.querySelector('.profile-edit');
 
@@ -25,13 +25,13 @@ const popupProfileEditSubmitButton = popupSectionProfileEdit.querySelector('.pop
 const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
-  popupInputProfileAbout.value = profileabout.textContent;
+  popupInputProfileAbout.value = profileAbout.textContent;
 };
 
 const editProfile = (evt) => {
   evt.preventDefault();
   profileName.textContent = popupInputProfileName.value;
-  profileabout.textContent = popupInputProfileAbout.value;
+  profileAbout.textContent = popupInputProfileAbout.value;
   closePopup(popupSectionProfileEdit);
 }
 
@@ -67,6 +67,11 @@ const addNewElement = (evt) => {
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
 popupNewPlaceCloseButton.addEventListener('click', () => closePopup(popupSectionNewPlace));
 popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
+popupSectionProfileEdit.addEventListener('click', (evt) => {
+  if(evt.target === evt.currentTarget) {
+    closePopup(popupSectionProfileEdit);
+  }
+})
 
 /*ELEMENTS*/
 
@@ -94,6 +99,16 @@ const openPopupImage = (evt) => {
 }
 
 popupPhotoCloseButton.addEventListener('click', () => closePopup(popupSectionImage));
+popupSectionImage.addEventListener('click', (evt) => {
+  if(evt.target === evt.currentTarget) {
+    closePopup(popupSectionImage);
+  }
+})
+popupSectionNewPlace.addEventListener('click', (evt) => {
+  if(evt.target === evt.currentTarget) {
+    closePopup(popupSectionNewPlace);
+  }
+})
 
 const createElement = (imgName, imgLink) => {
   const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
