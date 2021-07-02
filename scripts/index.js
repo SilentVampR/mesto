@@ -44,6 +44,7 @@ const newPlaceAddButton = document.querySelector('.add-button');
 
 const popupSectionNewPlace = document.querySelector('.new-place');
 
+const popupFormNewPlace = popupSectionNewPlace.querySelector('.popup__form-container');
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
 
@@ -56,8 +57,7 @@ const addNewElement = (evt) => {
   const newElementLink = popupInputNewPlaceUrl.value;
   if(newElementName && newElementLink && (newElementLink.includes('http://') || newElementLink.includes('https://') || newElementLink.includes('.jpg')  || newElementLink.includes('.jpeg') || newElementLink.includes('.png'))) {
     sectionElements.prepend(createElement(newElementName,newElementLink));
-    popupInputNewPlaceName.value = '';
-    popupInputNewPlaceUrl.value = '';
+    popupFormNewPlace.reset();
     closePopup(popupSectionNewPlace);
   }else{
     alert('Не все поля заполнены корректно!');
