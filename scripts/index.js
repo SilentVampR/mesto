@@ -69,11 +69,6 @@ const addNewElement = (evt) => {
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
 popupNewPlaceCloseButton.addEventListener('click', () => closePopup(popupSectionNewPlace));
 popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
-popupSectionProfileEdit.addEventListener('click', (evt) => {
-  if(evt.target === evt.currentTarget) {
-    closePopup(popupSectionProfileEdit);
-  }
-})
 
 /*ELEMENTS*/
 
@@ -93,14 +88,24 @@ const popupPhotoCloseButton = popupSectionImage.querySelector('.popup__close-but
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
-const openPopupImage = (evt) => {
+popupPhotoCloseButton.addEventListener('click', () => closePopup(popupSectionImage));
+
+/* OPEN POPUP WITH IMAGE */
+
+const openPopupImage = (imgData) => {
   openPopup(popupSectionImage);
-  popupPhotoImage.src = evt.srcElement.src;
-  popupPhotoImage.alt = evt.srcElement.alt;
-  popupPhotoCaption.textContent = evt.srcElement.alt;
+  popupPhotoImage.src = imgData.link;
+  popupPhotoImage.alt = imgData.name;
+  popupPhotoCaption.textContent = imgData.name;
 }
 
-popupPhotoCloseButton.addEventListener('click', () => closePopup(popupSectionImage));
+/* OVERLAY CLICK ACTION */
+popupSectionProfileEdit.addEventListener('click', (evt) => {
+  if(evt.target === evt.currentTarget) {
+    closePopup(popupSectionProfileEdit);
+  }
+})
+
 popupSectionImage.addEventListener('click', (evt) => {
   if(evt.target === evt.currentTarget) {
     closePopup(popupSectionImage);
@@ -112,18 +117,25 @@ popupSectionNewPlace.addEventListener('click', (evt) => {
   }
 })
 
+/* CREATE ELEMENT */
+
 const createElement = (imgData) => {
   const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
-  elementContainer.querySelector('.element__title').textContent = imgData.name;
   const elementImage = elementContainer.querySelector('.element__image');
+  const elementTitle = elementContainer.querySelector('.element__title');
+  const elementLikeButton = elementContainer.querySelector('.element__like-button');
+  const elementDeleteButton = elementContainer.querySelector('.element__delete-button');
+
+  elementTitle.textContent = imgData.name;
   elementImage.src = imgData.link;
   elementImage.alt = imgData.name;
-  elementContainer.querySelector('.element__like-button').addEventListener('click', makeLikeActive);
-  elementContainer.querySelector('.element__delete-button').addEventListener('click', deleteElement);
-  elementImage.addEventListener('click', openPopupImage);
+
+  elementLikeButton.addEventListener('click', makeLikeActive);
+  elementDeleteButton.addEventListener('click', deleteElement);
+  elementImage.addEventListener('click', () => openPopupImage(imgData));
+
   return elementContainer;
 }
-
 
 /* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
 
