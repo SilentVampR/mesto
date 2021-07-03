@@ -53,10 +53,12 @@ const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__su
 
 const addNewElement = (evt) => {
   evt.preventDefault();
-  const newElementName = popupInputNewPlaceName.value;
-  const newElementLink = popupInputNewPlaceUrl.value;
-  if(newElementName && newElementLink && (newElementLink.includes('http://') || newElementLink.includes('https://') || newElementLink.includes('.jpg')  || newElementLink.includes('.jpeg') || newElementLink.includes('.png'))) {
-    sectionElements.prepend(createElement(newElementName,newElementLink));
+  const newElement  = {
+    name: popupInputNewPlaceName.value,
+    link: popupInputNewPlaceUrl.value
+  }
+  if(newElement.name && newElement.link && (newElement.link.includes('http://') || newElement.link.includes('https://') || newElement.link.includes('.jpg')  || newElement.link.includes('.jpeg') || newElement.link.includes('.png'))) {
+    sectionElements.prepend(createElement(newElement));
     popupFormNewPlace.reset();
     closePopup(popupSectionNewPlace);
   }else{
@@ -110,12 +112,12 @@ popupSectionNewPlace.addEventListener('click', (evt) => {
   }
 })
 
-const createElement = (imgName, imgLink) => {
+const createElement = (imgData) => {
   const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
-  elementContainer.querySelector('.element__title').textContent = imgName;
+  elementContainer.querySelector('.element__title').textContent = imgData.name;
   const elementImage = elementContainer.querySelector('.element__image');
-  elementImage.src = imgLink;
-  elementImage.alt = imgName;
+  elementImage.src = imgData.link;
+  elementImage.alt = imgData.name;
   elementContainer.querySelector('.element__like-button').addEventListener('click', makeLikeActive);
   elementContainer.querySelector('.element__delete-button').addEventListener('click', deleteElement);
   elementImage.addEventListener('click', openPopupImage);
@@ -127,7 +129,7 @@ const createElement = (imgName, imgLink) => {
 
 const loadElements = (container) => {
   initialElements.forEach((element) => {
-    container.prepend(createElement(element.name, element.link));
+    container.prepend(createElement(element));
   })
 }
 
