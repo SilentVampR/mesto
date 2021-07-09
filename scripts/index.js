@@ -8,6 +8,13 @@ const openPopup = (popup) => {
   popup.classList.add('popup_opened');
 }
 
+document.addEventListener('keyup', (evt) => {
+  const openedPopup = document.querySelector('.popup_opened');
+  if(evt.key === 'Escape' && openedPopup){
+    closePopup(openedPopup);
+  }
+})
+
 /*PROFILE*/
 const profileSection  = document.querySelector('.profile');
 const profileButton = profileSection.querySelector('.profile__edit-button');
