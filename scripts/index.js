@@ -60,10 +60,12 @@ const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__su
 
 const addNewElement = (evt) => {
   evt.preventDefault();
-  const newElementName = popupInputNewPlaceName.value;
-  const newElementLink = popupInputNewPlaceUrl.value;
-  if(newElementName && newElementLink && (newElementLink.includes('http://') || newElementLink.includes('https://') || newElementLink.includes('.jpg')  || newElementLink.includes('.jpeg') || newElementLink.includes('.png'))) {
-    sectionElements.prepend(createElement(newElementName,newElementLink));
+  const newElement  = {
+    name: popupInputNewPlaceName.value,
+    link: popupInputNewPlaceUrl.value
+  }
+  if(newElement.name && newElement.link && (newElement.link.includes('http://') || newElement.link.includes('https://') || newElement.link.includes('.jpg')  || newElement.link.includes('.jpeg') || newElement.link.includes('.png'))) {
+    sectionElements.prepend(createElement(newElement));
     popupFormNewPlace.reset();
     closePopup(popupSectionNewPlace);
   }else{
@@ -74,11 +76,6 @@ const addNewElement = (evt) => {
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
 popupNewPlaceCloseButton.addEventListener('click', () => closePopup(popupSectionNewPlace));
 popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
-popupSectionProfileEdit.addEventListener('click', (evt) => {
-  if(evt.target === evt.currentTarget) {
-    closePopup(popupSectionProfileEdit);
-  }
-})
 
 /*ELEMENTS*/
 
@@ -98,14 +95,24 @@ const popupPhotoCloseButton = popupSectionImage.querySelector('.popup__close-but
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
-const openPopupImage = (evt) => {
+popupPhotoCloseButton.addEventListener('click', () => closePopup(popupSectionImage));
+
+/* OPEN POPUP WITH IMAGE */
+
+const openPopupImage = (imgData) => {
   openPopup(popupSectionImage);
-  popupPhotoImage.src = evt.srcElement.src;
-  popupPhotoImage.alt = evt.srcElement.alt;
-  popupPhotoCaption.textContent = evt.srcElement.alt;
+  popupPhotoImage.src = imgData.link;
+  popupPhotoImage.alt = imgData.name;
+  popupPhotoCaption.textContent = imgData.name;
 }
 
-popupPhotoCloseButton.addEventListener('click', () => closePopup(popupSectionImage));
+/* OVERLAY CLICK ACTION */
+popupSectionProfileEdit.addEventListener('click', (evt) => {
+  if(evt.target === evt.currentTarget) {
+    closePopup(popupSectionProfileEdit);
+  }
+})
+
 popupSectionImage.addEventListener('click', (evt) => {
   if(evt.target === evt.currentTarget) {
     closePopup(popupSectionImage);
@@ -117,24 +124,31 @@ popupSectionNewPlace.addEventListener('click', (evt) => {
   }
 })
 
-const createElement = (imgName, imgLink) => {
+/* CREATE ELEMENT */
+
+const createElement = (imgData) => {
   const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
-  elementContainer.querySelector('.element__title').textContent = imgName;
   const elementImage = elementContainer.querySelector('.element__image');
-  elementImage.src = imgLink;
-  elementImage.alt = imgName;
-  elementContainer.querySelector('.element__like-button').addEventListener('click', makeLikeActive);
-  elementContainer.querySelector('.element__delete-button').addEventListener('click', deleteElement);
-  elementImage.addEventListener('click', openPopupImage);
+  const elementTitle = elementContainer.querySelector('.element__title');
+  const elementLikeButton = elementContainer.querySelector('.element__like-button');
+  const elementDeleteButton = elementContainer.querySelector('.element__delete-button');
+
+  elementTitle.textContent = imgData.name;
+  elementImage.src = imgData.link;
+  elementImage.alt = imgData.name;
+
+  elementLikeButton.addEventListener('click', makeLikeActive);
+  elementDeleteButton.addEventListener('click', deleteElement);
+  elementImage.addEventListener('click', () => openPopupImage(imgData));
+
   return elementContainer;
 }
-
 
 /* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
 
 const loadElements = (container) => {
   initialElements.forEach((element) => {
-    container.prepend(createElement(element.name, element.link));
+    container.prepend(createElement(element));
   })
 }
 
