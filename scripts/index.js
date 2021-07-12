@@ -4,7 +4,9 @@ const classNamesSettings = {
   submitButtonSelector: '.popup__submit-button',
   inactiveButtonClass: 'popup__submit-button_disabled',
   inputErrorClass: 'popup__input_state_not-valid',
-  errorClass: 'popup__text-error_state_not-valid'
+  errorClass: 'popup__text-error_state_not-valid',
+  inputContainer: '.popup__input-container',
+  errorText: '.popup__text-error'
 }
 
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
@@ -52,6 +54,8 @@ const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
+  checkInputValidity(popupInputProfileName);
+  checkInputValidity(popupInputProfileAbout);
 };
 
 const editProfile = (evt) => {
@@ -81,13 +85,9 @@ const addNewElement = (evt) => {
     name: popupInputNewPlaceName.value,
     link: popupInputNewPlaceUrl.value
   }
-  if(newElement.name && newElement.link && (newElement.link.includes('http://') || newElement.link.includes('https://') || newElement.link.includes('.jpg')  || newElement.link.includes('.jpeg') || newElement.link.includes('.png'))) {
-    sectionElements.prepend(createElement(newElement));
-    popupFormNewPlace.reset();
-    closePopup(popupSectionNewPlace);
-  }else{
-    alert('Не все поля заполнены корректно!');
-  }
+  sectionElements.prepend(createElement(newElement));
+  popupFormNewPlace.reset();
+  closePopup(popupSectionNewPlace);
 }
 
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));

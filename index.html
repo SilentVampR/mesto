@@ -40,30 +40,30 @@
       </footer>
     </div>
     <section class="popup profile-edit">
-      <form class="popup__form-container" name="profileEditForm">
+      <form class="popup__form-container" name="profileEditForm" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
         <div class="popup__input-container">
           <input type="text" name="profileAuthorName" class="popup__input popup__input_author_name" placeholder="Имя" required minlength="2" maxlength="40">
-          <span class="popup__text-error popup__text-error_author_name"></span>
+          <span class="popup__text-error"></span>
         </div>
         <div class="popup__input-container">
           <input type="text" name="profileAuthorAbout" class="popup__input popup__input_author_about" placeholder="О себе" required minlength="2" maxlength="200">
-          <span class="popup__text-error popup__text-error_author_about"></span>
+          <span class="popup__text-error"></span>
         </div>
         <button class="popup__submit-button">Сохранить</button>
         <button class="popup__close-button" type="button"></button>
       </form>
     </section>
     <section class="popup new-place">
-      <form class="popup__form-container" name="newPlaceForm">
+      <form class="popup__form-container" name="newPlaceForm" novalidate>
         <h2 class="popup__title">Новое место</h2>
         <div class="popup__input-container">
           <input type="text" name="placeName" class="popup__input popup__input_place_name" placeholder="Название" required minlength="2" maxlength="40">
-          <span class="popup__text-error popup__text-error_place_name"></span>
+          <span class="popup__text-error"></span>
         </div>
         <div class="popup__input-container">
           <input type="url" name="placeUrl" class="popup__input popup__input_place_url" placeholder="Ссылка на картинку" required>
-          <span class="popup__text-error popup__text-error_place_url"></span>
+          <span class="popup__text-error"></span>
         </div>
         <button class="popup__submit-button">Создать</button>
         <button class="popup__close-button" type="button"></button>
