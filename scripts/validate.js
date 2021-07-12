@@ -14,9 +14,9 @@ const checkInputValidity = (inputElement) => {
   const inputIsNotValid = !inputElement.validity.valid;
   if(inputIsNotValid){
     const errorMessage = inputElement.validationMessage;
-    toggleInputError(show, inputElement, errorMessage);
+    toggleInputError('show', inputElement, errorMessage);
   } else {
-    toggleInputError(hide, inputElement);
+    toggleInputError('hide', inputElement);
   }
 }
 
