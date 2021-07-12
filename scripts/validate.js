@@ -1,26 +1,22 @@
-const showInputError = (inputElement, errorMessage) => {
+const toggleInputError = (type, inputElement, errorMessage) => {
   const inputContainer = inputElement.closest(classNamesSettings.inputContainer);
   const errorElement = inputContainer.querySelector(classNamesSettings.errorText);
-
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(classNamesSettings.errorClass);
-};
-
-const hideInputError = (inputElement) => {
-  const inputContainer = inputElement.closest(classNamesSettings.inputContainer);
-  const errorElement = inputContainer.querySelector(classNamesSettings.errorText);
-
-  errorElement.textContent = "";
-  errorElement.classList.remove(classNamesSettings.errorClass);
+  if(type === 'show') {
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add(classNamesSettings.errorClass);
+  } else {
+    errorElement.textContent = "";
+    errorElement.classList.remove(classNamesSettings.errorClass);
+  }
 };
 
 const checkInputValidity = (inputElement) => {
   const inputIsNotValid = !inputElement.validity.valid;
   if(inputIsNotValid){
     const errorMessage = inputElement.validationMessage;
-    showInputError(inputElement, errorMessage);
+    toggleInputError(show, inputElement, errorMessage);
   } else {
-    hideInputError(inputElement);
+    toggleInputError(hide, inputElement);
   }
 }
 
