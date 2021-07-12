@@ -1,3 +1,12 @@
+const classNamesSettings = {
+  formSelector: '.popup__form-container',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_disabled',
+  inputErrorClass: 'popup__input_state_not-valid',
+  errorClass: 'popup__text-error_state_not-valid'
+}
+
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
 
 const closePopup = (popup) => {
