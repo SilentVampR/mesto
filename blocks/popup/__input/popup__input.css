@@ -8,11 +8,9 @@
   height: 27px;
   padding-top: 0px;
   margin: 0;
+  width: 100%;
 }
 
-.popup__input:first-of-type {
-  margin-bottom: 30px;
-}
 .popup__input:focus {
   outline: 1px dashed rgba(0,0,0,0.5);
 }

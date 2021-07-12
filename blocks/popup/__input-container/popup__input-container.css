@@ -1,0 +1,6 @@
+.popup__input-container {
+  position: relative;
+}
+.popup__input-container:first-of-type {
+  margin-bottom: 30px;
+}

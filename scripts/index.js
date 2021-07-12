@@ -82,7 +82,6 @@ const addNewElement = (evt) => {
 }
 
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
-/*popupNewPlaceCloseButton.addEventListener('click', () => closePopup(popupSectionNewPlace));*/
 popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
 
 /*ELEMENTS*/

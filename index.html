@@ -42,8 +42,14 @@
     <section class="popup profile-edit">
       <form class="popup__form-container" name="profileEditForm">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input type="text" name="profileAuthorName" class="popup__input popup__input_author_name" placeholder="Имя">
-        <input type="text" name="profileAuthorAbout" class="popup__input popup__input_author_about" placeholder="О себе">
+        <div class="popup__input-container">
+          <input type="text" name="profileAuthorName" class="popup__input popup__input_author_name" placeholder="Имя" required minlength="2" maxlength="40">
+          <span class="popup__text-error popup__text-error_author_name"></span>
+        </div>
+        <div class="popup__input-container">
+          <input type="text" name="profileAuthorAbout" class="popup__input popup__input_author_about" placeholder="О себе" required minlength="2" maxlength="200">
+          <span class="popup__text-error popup__text-error_author_about"></span>
+        </div>
         <button class="popup__submit-button">Сохранить</button>
         <button class="popup__close-button" type="button"></button>
       </form>
@@ -51,8 +57,14 @@
     <section class="popup new-place">
       <form class="popup__form-container" name="newPlaceForm">
         <h2 class="popup__title">Новое место</h2>
-        <input type="text" name="placeName" class="popup__input popup__input_place_name" placeholder="Название">
-        <input type="text" name="placeUrl" class="popup__input popup__input_place_url" placeholder="Ссылка на картинку">
+        <div class="popup__input-container">
+          <input type="text" name="placeName" class="popup__input popup__input_place_name" placeholder="Название" required minlength="2" maxlength="40">
+          <span class="popup__text-error popup__text-error_place_name"></span>
+        </div>
+        <div class="popup__input-container">
+          <input type="url" name="placeUrl" class="popup__input popup__input_place_url" placeholder="Ссылка на картинку" required>
+          <span class="popup__text-error popup__text-error_place_url"></span>
+        </div>
         <button class="popup__submit-button">Создать</button>
         <button class="popup__close-button" type="button"></button>
       </form>

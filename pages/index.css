@@ -21,12 +21,22 @@
 
 @import url(../blocks/popup/__form-container/popup__form-container.css);
 @import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__input-container/popup__input-container.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__input/_author/popup__input_author_name.css);
 @import url(../blocks/popup/__input/_author/popup__input_author_about.css);
 @import url(../blocks/popup/__input/_place/popup__input_place_name.css);
 @import url(../blocks/popup/__input/_place/popup__input_place_url.css);
+@import url(../blocks/popup/__input/_state/popup__input_state_not-valid.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
+@import url(../blocks/popup/__text-error/popup__text-error.css);
+@import url(../blocks/popup/__text-error/_author/popup__text-error_author_name.css);
+@import url(../blocks/popup/__text-error/_author/popup__text-error_autor_about.css);
+@import url(../blocks/popup/__text-error/_place/popup__text-error_place_name.css);
+@import url(../blocks/popup/__text-error/_place/popup__text-error_place_url.css);
+@import url(../blocks/popup/__text-error/_state/popup__text-error_state_not-valid.css);
+
+
 
 /* POPUP IMAGE */
 @import url(../blocks/image-overlay/image-overlay.css);
