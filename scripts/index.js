@@ -2,18 +2,29 @@
 
 const closePopup = (popup) => {
   popup.classList.remove('popup_opened');
+  const popupCloseButton = popup.querySelector('.popup__close-button');
+  popupCloseButton.removeEventListener('click', () => closePopup(popup));
 }
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
-}
-
-document.addEventListener('keyup', (evt) => {
-  const openedPopup = document.querySelector('.popup_opened');
-  if(evt.key === 'Escape' && openedPopup){
-    closePopup(openedPopup);
+  const popupCloseButton = popup.querySelector('.popup__close-button');
+  popupCloseButton.addEventListener('click', () => closePopup(popup));
+  const checkKey = (evt) => {
+    if(evt.key === 'Escape') {
+      closePopup(popup);
+      document.removeEventListener('keyup', checkKey);
+    }
   }
-})
+  document.addEventListener('keyup', checkKey);
+  const checkOverlayTarget = (evt) => {
+    if(evt.target === evt.currentTarget) {
+      closePopup(popup);
+      popup.removeEventListener('click', checkOverlayTarget);
+    }
+  }
+  popup.addEventListener('click', checkOverlayTarget);
+}
 
 /*PROFILE*/
 const profileSection  = document.querySelector('.profile');
@@ -26,7 +37,6 @@ const popupSectionProfileEdit = document.querySelector('.profile-edit');
 const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
 const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
 
-const popupProfileEditCloseButton = popupSectionProfileEdit.querySelector('.popup__close-button');
 const popupProfileEditSubmitButton = popupSectionProfileEdit.querySelector('.popup__submit-button');
 
 const openPopupProfileEdit = () => {
@@ -43,7 +53,6 @@ const editProfile = (evt) => {
 }
 
 profileButton.addEventListener('click', openPopupProfileEdit);
-popupProfileEditCloseButton.addEventListener('click', () => closePopup(popupSectionProfileEdit));
 popupProfileEditSubmitButton.addEventListener('click', editProfile);
 
 /*NEW PLACE*/
@@ -55,7 +64,6 @@ const popupFormNewPlace = popupSectionNewPlace.querySelector('.popup__form-conta
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
 
-const popupNewPlaceCloseButton = popupSectionNewPlace.querySelector('.popup__close-button');
 const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__submit-button');
 
 const addNewElement = (evt) => {
@@ -74,7 +82,7 @@ const addNewElement = (evt) => {
 }
 
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
-popupNewPlaceCloseButton.addEventListener('click', () => closePopup(popupSectionNewPlace));
+/*popupNewPlaceCloseButton.addEventListener('click', () => closePopup(popupSectionNewPlace));*/
 popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
 
 /*ELEMENTS*/
@@ -91,11 +99,8 @@ const deleteElement = (evt) => {
 }
 
 const popupSectionImage  = document.querySelector('.image-overlay');
-const popupPhotoCloseButton = popupSectionImage.querySelector('.popup__close-button');
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
-
-popupPhotoCloseButton.addEventListener('click', () => closePopup(popupSectionImage));
 
 /* OPEN POPUP WITH IMAGE */
 
@@ -105,24 +110,6 @@ const openPopupImage = (imgData) => {
   popupPhotoImage.alt = imgData.name;
   popupPhotoCaption.textContent = imgData.name;
 }
-
-/* OVERLAY CLICK ACTION */
-popupSectionProfileEdit.addEventListener('click', (evt) => {
-  if(evt.target === evt.currentTarget) {
-    closePopup(popupSectionProfileEdit);
-  }
-})
-
-popupSectionImage.addEventListener('click', (evt) => {
-  if(evt.target === evt.currentTarget) {
-    closePopup(popupSectionImage);
-  }
-})
-popupSectionNewPlace.addEventListener('click', (evt) => {
-  if(evt.target === evt.currentTarget) {
-    closePopup(popupSectionNewPlace);
-  }
-})
 
 /* CREATE ELEMENT */
 
