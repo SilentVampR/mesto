@@ -1,33 +1,33 @@
-const toggleInputError = (type, inputElement, errorMessage) => {
-  const inputContainer = inputElement.closest(classNamesSettings.inputContainer);
-  const errorElement = inputContainer.querySelector(classNamesSettings.errorText);
+const toggleInputError = (type, inputElement, errorMessage, settings) => {
+  const inputContainer = inputElement.closest(settings.inputContainer);
+  const errorElement = inputContainer.querySelector(settings.errorText);
   if(type === 'show') {
     errorElement.textContent = errorMessage;
-    errorElement.classList.add(classNamesSettings.errorClass);
+    errorElement.classList.add(settings.errorClass);
   } else {
     errorElement.textContent = "";
-    errorElement.classList.remove(classNamesSettings.errorClass);
+    errorElement.classList.remove(settings.errorClass);
   }
 };
 
-const checkInputValidity = (inputElement) => {
+const checkInputValidity = (inputElement, settings) => {
   const inputIsNotValid = !inputElement.validity.valid;
   if(inputIsNotValid){
     const errorMessage = inputElement.validationMessage;
-    toggleInputError('show', inputElement, errorMessage);
+    toggleInputError('show', inputElement, errorMessage, settings);
   } else {
-    toggleInputError('hide', inputElement);
+    toggleInputError('hide', inputElement, settings);
   }
 }
 
-const changeButtonState = (inputListArray, button) => {
+const changeButtonState = (inputListArray, button, settings) => {
   const noValidElements = inputListArray.some(inputElement => !inputElement.validity.valid);
   if(noValidElements) {
     button.setAttribute('disabled', true);
-    button.classList.add(classNamesSettings.inactiveButtonClass);
+    button.classList.add(settings.inactiveButtonClass);
   } else {
     button.removeAttribute('disabled', true);
-    button.classList.remove(classNamesSettings.inactiveButtonClass);
+    button.classList.remove(settings.inactiveButtonClass);
   }
 }
 
@@ -42,8 +42,8 @@ const setEventListeners = (form, settings) => {
 
   const setInputValidity = (inputElement) => {
     inputElement.addEventListener('input', () => {
-      checkInputValidity(inputElement);
-      changeButtonState(inputListArray, submitButton);
+      checkInputValidity(inputElement, settings);
+      changeButtonState(inputListArray, submitButton, settings);
     })
   }
   inputListArray.forEach(setInputValidity);
