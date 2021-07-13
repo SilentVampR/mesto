@@ -81,7 +81,6 @@ const popupSectionNewPlace = document.querySelector('.popup_type_new-place');
 const popupFormNewPlace = popupSectionNewPlace.querySelector('.popup__form-container');
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
-
 const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__submit-button');
 
 const addNewElement = (evt) => {
@@ -93,12 +92,21 @@ const addNewElement = (evt) => {
   sectionElements.prepend(createElement(newElement));
   popupFormNewPlace.reset();
   closePopup();
-  const inputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
+  const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
   const popupSubmitButton = popupFormNewPlace.querySelector('.popup__submit-button');
-  changeButtonState(inputListArray, popupSubmitButton, classNamesSettings);
+  changeButtonState(newPlaceInputListArray, popupSubmitButton, classNamesSettings);
 }
 
-newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
+const openNewPlacePopup = (settings) => {
+  popupFormNewPlace.reset();
+  const popupTextErrorListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__text-error'));
+  popupTextErrorListArray.forEach((textError) => {
+    textError.classList.remove(settings.errorClass);
+  })
+  openPopup(popupSectionNewPlace);
+}
+
+newPlaceAddButton.addEventListener('click', () => openNewPlacePopup(classNamesSettings));
 popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
 
 /*ELEMENTS*/
