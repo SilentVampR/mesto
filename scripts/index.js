@@ -88,6 +88,9 @@ const addNewElement = (evt) => {
   sectionElements.prepend(createElement(newElement));
   popupFormNewPlace.reset();
   closePopup(popupSectionNewPlace);
+  const inputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
+  const popupSubmitButton = popupFormNewPlace.querySelector('.popup__submit-button');
+  changeButtonState(inputListArray, popupSubmitButton);
 }
 
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
