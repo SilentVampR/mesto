@@ -11,29 +11,34 @@ const classNamesSettings = {
 
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
 
-const closePopup = (popup) => {
-  popup.classList.remove('popup_opened');
-  const popupCloseButton = popup.querySelector('.popup__close-button');
-  popupCloseButton.removeEventListener('click', () => closePopup(popup));
+const checkKey = (evt) => {
+  if(evt.key === 'Escape') {
+    closePopup();
+  }
+}
+
+const checkOverlayTarget = (evt) => {
+  if(evt.target === evt.currentTarget) {
+    closePopup();
+  }
+}
+
+const closePopup = () => {
+  const popupToClose = document.querySelector('.popup_opened');
+  const popupCloseButton = popupToClose.querySelector('.popup__close-button');
+  popupToClose.classList.remove('popup_opened');
+
+  popupCloseButton.removeEventListener('click', closePopup);
+  document.removeEventListener('keyup', checkKey);
+  popupToClose.removeEventListener('click', checkOverlayTarget);
 }
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
   const popupCloseButton = popup.querySelector('.popup__close-button');
-  popupCloseButton.addEventListener('click', () => closePopup(popup));
-  const checkKey = (evt) => {
-    if(evt.key === 'Escape') {
-      closePopup(popup);
-      document.removeEventListener('keyup', checkKey);
-    }
-  }
+
+  popupCloseButton.addEventListener('click', closePopup);
   document.addEventListener('keyup', checkKey);
-  const checkOverlayTarget = (evt) => {
-    if(evt.target === evt.currentTarget) {
-      closePopup(popup);
-      popup.removeEventListener('click', checkOverlayTarget);
-    }
-  }
   popup.addEventListener('click', checkOverlayTarget);
 }
 
@@ -54,15 +59,15 @@ const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
-  checkInputValidity(popupInputProfileName);
-  checkInputValidity(popupInputProfileAbout);
+  checkInputValidity(popupInputProfileName, classNamesSettings);
+  checkInputValidity(popupInputProfileAbout, classNamesSettings);
 };
 
 const editProfile = (evt) => {
   evt.preventDefault();
   profileName.textContent = popupInputProfileName.value;
   profileAbout.textContent = popupInputProfileAbout.value;
-  closePopup(popupSectionProfileEdit);
+  closePopup();
 }
 
 profileButton.addEventListener('click', openPopupProfileEdit);
@@ -87,7 +92,7 @@ const addNewElement = (evt) => {
   }
   sectionElements.prepend(createElement(newElement));
   popupFormNewPlace.reset();
-  closePopup(popupSectionNewPlace);
+  closePopup();
   const inputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
   const popupSubmitButton = popupFormNewPlace.querySelector('.popup__submit-button');
   changeButtonState(inputListArray, popupSubmitButton, classNamesSettings);
