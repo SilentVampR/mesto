@@ -15,7 +15,7 @@
       </header>
       <main class="content">
         <section class="profile">
-          <img src="./images/me_avatar.jpg" alt="Евгений Корсунов" class="profile__avatar">
+          <img src="./images/me_avatar.jpg" alt="Аватар пользователя" class="profile__avatar">
           <div class="profile__info">
             <h1 class="profile__name">Евгений Корсунов</h1><button class="profile__edit-button" type="button"></button>
             <p class="profile__about">Познающий вселенную</p>
@@ -39,7 +39,7 @@
         <p class="footer__copyright">&copy; 2021 Mesto Russia</p>
       </footer>
     </div>
-    <section class="popup profile-edit">
+    <div class="popup popup_type_profile-edit">
       <form class="popup__form-container" name="profileEditForm" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
         <div class="popup__input-container">
@@ -53,8 +53,8 @@
         <button class="popup__submit-button">Сохранить</button>
         <button class="popup__close-button" type="button"></button>
       </form>
-    </section>
-    <section class="popup new-place">
+    </div>
+    <div class="popup popup_type_new-place">
       <form class="popup__form-container" name="newPlaceForm" novalidate>
         <h2 class="popup__title">Новое место</h2>
         <div class="popup__input-container">
@@ -68,14 +68,14 @@
         <button class="popup__submit-button">Создать</button>
         <button class="popup__close-button" type="button"></button>
       </form>
-    </section>
-    <section class="popup image-overlay">
+    </div>
+    <div class="popup popup_type_image-overlay">
       <figure class="popup__image-container">
         <img src="./images/temp_image.jpg" alt="Нет описания" class="popup__image">
         <button class="popup__close-button" type="button"></button>
         <figcaption class="popup__image-caption"></figcaption>
       </figure>
-    </section>
+    </div>
     <script src="./scripts/initial-elements.js"></script>
     <script src="./scripts/index.js"></script>
     <script src="./scripts/validate.js"></script>

@@ -43,7 +43,7 @@ const profileButton = profileSection.querySelector('.profile__edit-button');
 const profileName = profileSection.querySelector('.profile__name');
 const profileAbout = profileSection.querySelector('.profile__about');
 
-const popupSectionProfileEdit = document.querySelector('.profile-edit');
+const popupSectionProfileEdit = document.querySelector('.popup_type_profile-edit');
 
 const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
 const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
@@ -71,7 +71,7 @@ popupProfileEditSubmitButton.addEventListener('click', editProfile);
 /*NEW PLACE*/
 const newPlaceAddButton = document.querySelector('.add-button');
 
-const popupSectionNewPlace = document.querySelector('.new-place');
+const popupSectionNewPlace = document.querySelector('.popup_type_new-place');
 
 const popupFormNewPlace = popupSectionNewPlace.querySelector('.popup__form-container');
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
@@ -90,7 +90,7 @@ const addNewElement = (evt) => {
   closePopup(popupSectionNewPlace);
   const inputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
   const popupSubmitButton = popupFormNewPlace.querySelector('.popup__submit-button');
-  changeButtonState(inputListArray, popupSubmitButton);
+  changeButtonState(inputListArray, popupSubmitButton, classNamesSettings);
 }
 
 newPlaceAddButton.addEventListener('click', () => openPopup(popupSectionNewPlace));
@@ -109,7 +109,7 @@ const deleteElement = (evt) => {
   evt.target.closest('.element').remove();
 }
 
-const popupSectionImage  = document.querySelector('.image-overlay');
+const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
