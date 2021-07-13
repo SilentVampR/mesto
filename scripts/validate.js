@@ -1,4 +1,4 @@
-const toggleInputError = (type, inputElement, errorMessage, settings) => {
+const toggleInputError = (type, inputElement, settings, errorMessage) => {
   const inputContainer = inputElement.closest(settings.inputContainer);
   const errorElement = inputContainer.querySelector(settings.errorText);
   if(type === 'show') {
@@ -14,7 +14,7 @@ const checkInputValidity = (inputElement, settings) => {
   const inputIsNotValid = !inputElement.validity.valid;
   if(inputIsNotValid){
     const errorMessage = inputElement.validationMessage;
-    toggleInputError('show', inputElement, errorMessage, settings);
+    toggleInputError('show', inputElement, settings, errorMessage);
   } else {
     toggleInputError('hide', inputElement, settings);
   }
