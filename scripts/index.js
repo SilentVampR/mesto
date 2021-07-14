@@ -13,31 +13,36 @@ const classNamesSettings = {
 
 const checkKey = (evt) => {
   if(evt.key === 'Escape') {
-    closePopup();
+    const popupToClose = document.querySelector('.popup_opened');
+    closePopup(popupToClose);
   }
 }
 
 const checkOverlayTarget = (evt) => {
   if(evt.target === evt.currentTarget) {
-    closePopup();
+    closePopup(evt.target);
   }
 }
 
-const closePopup = () => {
-  const popupToClose = document.querySelector('.popup_opened');
-  const popupCloseButton = popupToClose.querySelector('.popup__close-button');
-  popupToClose.classList.remove('popup_opened');
+const getPopupFromClosePopupButton = (evt) => {
+  const popupToClose = evt.target.closest('.popup');
+  closePopup(popupToClose);
+}
 
-  popupCloseButton.removeEventListener('click', closePopup);
+const closePopup = (popup) => {
+  const popupCloseButton = popup.querySelector('.popup__close-button');
+  popup.classList.remove('popup_opened');
+
+  popupCloseButton.removeEventListener('click', getPopupFromClosePopupButton);
   document.removeEventListener('keyup', checkKey);
-  popupToClose.removeEventListener('click', checkOverlayTarget);
+  popup.removeEventListener('click', checkOverlayTarget);
 }
 
 const openPopup = (popup) => {
   popup.classList.add('popup_opened');
   const popupCloseButton = popup.querySelector('.popup__close-button');
 
-  popupCloseButton.addEventListener('click', closePopup);
+  popupCloseButton.addEventListener('click', getPopupFromClosePopupButton);
   document.addEventListener('keyup', checkKey);
   popup.addEventListener('click', checkOverlayTarget);
 }
