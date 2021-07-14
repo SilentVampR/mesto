@@ -115,7 +115,7 @@ const sectionElements = document.querySelector('.elements');
 const elementTemplate = sectionElements.querySelector('#elementTemplate').content;
 
 const makeLikeActive = (evt) => {
-  evt.target.classList.add('element__like-button_active');
+  evt.target.classList.toggle('element__like-button_active');
 }
 
 const deleteElement = (evt) => {
