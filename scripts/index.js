@@ -72,7 +72,7 @@ const editProfile = (evt) => {
   evt.preventDefault();
   profileName.textContent = popupInputProfileName.value;
   profileAbout.textContent = popupInputProfileAbout.value;
-  closePopup();
+  closePopup(popupSectionProfileEdit);
 }
 
 profileButton.addEventListener('click', openPopupProfileEdit);
@@ -96,7 +96,7 @@ const addNewElement = (evt) => {
   }
   sectionElements.prepend(createElement(newElement));
   popupFormNewPlace.reset();
-  closePopup();
+  closePopup(popupSectionNewPlace);
   const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
   const popupSubmitButton = popupFormNewPlace.querySelector('.popup__submit-button');
   changeButtonState(newPlaceInputListArray, popupSubmitButton, classNamesSettings);
