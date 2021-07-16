@@ -20,7 +20,6 @@
 
 @media screen and (min-width: 576px) {
   .add-button {
-    margin-top: 0;
     -ms-grid-column: 1;
         grid-column-start: 1;
     -ms-grid-column-span: 3;
@@ -30,6 +29,7 @@
 
 @media screen and (min-width: 768px) {
   .add-button {
+    margin-top: 0;
     background-size: 22px;
     width: 150px;
     -ms-grid-column: 3;

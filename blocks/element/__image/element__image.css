@@ -6,6 +6,7 @@
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
+  display: block;
 }
 
 .element__image:hover {
