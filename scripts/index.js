@@ -1,3 +1,7 @@
+import initialCards from "./initial-cards.js";
+import { Card } from "./Cards.js";
+import { FormValidator } from "./FormValidator.js";
+
 const classNamesSettings = {
   formSelector: '.popup__form-container',
   inputSelector: '.popup__input',
@@ -8,6 +12,19 @@ const classNamesSettings = {
   inputContainer: '.popup__input-container',
   errorText: '.popup__text-error'
 }
+
+const forms = Array.from(document.querySelectorAll(classNamesSettings.formSelector));
+forms.forEach((form) => {
+  const validity = new FormValidator(classNamesSettings, form);
+  validity.enableValidation();
+})
+
+initialCards.forEach((item) => {
+  const card = new Card(item);
+  const cardElement = card.generateCard();
+  const sectionCards = document.querySelector('.cards');
+  sectionCards.prepend(cardElement);
+});
 
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
 
@@ -32,16 +49,14 @@ const getPopupFromClosePopupButton = (evt) => {
 const closePopup = (popup) => {
   const popupCloseButton = popup.querySelector('.popup__close-button');
   popup.classList.remove('popup_opened');
-
   popupCloseButton.removeEventListener('click', getPopupFromClosePopupButton);
   document.removeEventListener('keyup', checkKey);
   popup.removeEventListener('click', checkOverlayTarget);
 }
 
-const openPopup = (popup) => {
+export const openPopup = (popup) => {
   popup.classList.add('popup_opened');
   const popupCloseButton = popup.querySelector('.popup__close-button');
-
   popupCloseButton.addEventListener('click', getPopupFromClosePopupButton);
   document.addEventListener('keyup', checkKey);
   popup.addEventListener('click', checkOverlayTarget);
@@ -64,8 +79,9 @@ const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
-  checkInputValidity(popupInputProfileName, classNamesSettings);
-  checkInputValidity(popupInputProfileAbout, classNamesSettings);
+  const inputValidity = new FormValidator(classNamesSettings);
+  inputValidity.checkInputValidity(popupInputProfileName);
+  inputValidity.checkInputValidity(popupInputProfileAbout);
 };
 
 const editProfile = (evt) => {
@@ -80,9 +96,7 @@ popupProfileEditSubmitButton.addEventListener('click', editProfile);
 
 /*NEW PLACE*/
 const newPlaceAddButton = document.querySelector('.add-button');
-
 const popupSectionNewPlace = document.querySelector('.popup_type_new-place');
-
 const popupFormNewPlace = popupSectionNewPlace.querySelector('.popup__form-container');
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
@@ -90,16 +104,20 @@ const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__su
 
 const addNewCard = (evt) => {
   evt.preventDefault();
-  const newCard  = {
+  const newCardData  = {
     name: popupInputNewPlaceName.value,
     link: popupInputNewPlaceUrl.value
   }
-  sectionCards.prepend(createCard(newCard));
+  const card = new Card(newCardData);
+  const cardElement = card.generateCard();
+  const sectionCards = document.querySelector('.cards');
+  sectionCards.prepend(cardElement);
+
   popupFormNewPlace.reset();
   closePopup(popupSectionNewPlace);
   const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
-  const popupSubmitButton = popupFormNewPlace.querySelector('.popup__submit-button');
-  changeButtonState(newPlaceInputListArray, popupSubmitButton, classNamesSettings);
+  const buttonState = new FormValidator(classNamesSettings, popupFormNewPlace);
+  buttonState.changeButtonState(newPlaceInputListArray);
 }
 
 const openNewPlacePopup = (settings) => {
@@ -108,64 +126,11 @@ const openNewPlacePopup = (settings) => {
   popupTextErrorListArray.forEach((textError) => {
     textError.classList.remove(settings.errorClass);
   })
+  const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
+  const buttonState = new FormValidator(classNamesSettings, popupFormNewPlace);
+  buttonState.changeButtonState(newPlaceInputListArray);
   openPopup(popupSectionNewPlace);
 }
 
 newPlaceAddButton.addEventListener('click', () => openNewPlacePopup(classNamesSettings));
 popupNewPlaceSubmitButton.addEventListener('click', addNewCard);
-
-/*CARDS*/
-
-const sectionCards = document.querySelector('.cards');
-const cardTemplate = sectionCards.querySelector('#cardTemplate').content;
-
-const makeLikeActive = (evt) => {
-  evt.target.classList.toggle('card__like-button_active');
-}
-
-const deleteCard = (evt) => {
-  evt.target.closest('.card').remove();
-}
-
-const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
-const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
-const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
-
-/* OPEN POPUP WITH IMAGE */
-
-const openPopupImage = (imgData) => {
-  openPopup(popupSectionImage);
-  popupPhotoImage.src = imgData.link;
-  popupPhotoImage.alt = imgData.name;
-  popupPhotoCaption.textContent = imgData.name;
-}
-
-/* CREATE CARD */
-
-const createCard = (imgData) => {
-  const cardContainer = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardImage = cardContainer.querySelector('.card__image');
-  const cardTitle = cardContainer.querySelector('.card__title');
-  const cardLikeButton = cardContainer.querySelector('.card__like-button');
-  const cardDeleteButton = cardContainer.querySelector('.card__delete-button');
-
-  cardTitle.textContent = imgData.name;
-  cardImage.src = imgData.link;
-  cardImage.alt = imgData.name;
-
-  cardLikeButton.addEventListener('click', makeLikeActive);
-  cardDeleteButton.addEventListener('click', deleteCard);
-  cardImage.addEventListener('click', () => openPopupImage(imgData));
-
-  return cardContainer;
-}
-
-/* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
-
-const loadCards = (container) => {
-  initialCards.forEach((card) => {
-    container.prepend(createCard(card));
-  })
-}
-
-loadCards(sectionCards);
