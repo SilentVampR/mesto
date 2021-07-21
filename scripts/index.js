@@ -92,11 +92,12 @@ const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form
 const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
 const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
 
-const openPopupProfileEdit = () => {
+const openPopupProfileEdit = (settings) => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
-  setValidator(classNamesSettings, popupFormProfileEdit).hideInputErrors();
+  setValidator(settings, popupFormProfileEdit).hideInputErrors();
+  setValidator(settings, popupFormProfileEdit).changeButtonState();
 };
 
 const editProfile = (evt) => {
@@ -106,7 +107,7 @@ const editProfile = (evt) => {
   closePopup(popupSectionProfileEdit);
 }
 
-profileButton.addEventListener('click', openPopupProfileEdit);
+profileButton.addEventListener('click', () => openPopupProfileEdit(classNamesSettings));
 popupFormProfileEdit.addEventListener('submit', editProfile);
 
 /*NEW PLACE ADD FORM*/
