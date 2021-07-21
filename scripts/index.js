@@ -14,6 +14,9 @@ const classNamesSettings = {
   templateId: '#cardTemplate'
 }
 
+
+/* CARDS */
+
 const sectionCards = document.querySelector('.cards');
 
 const createCard = (item) => {
@@ -26,15 +29,21 @@ const renderCard = (item, section) => {
   section.prepend(createCard(item));
 }
 
-const forms = Array.from(document.querySelectorAll(classNamesSettings.formSelector));
-forms.forEach((form) => {
-  const validity = new FormValidator(classNamesSettings, form);
-  validity.enableValidation();
-})
-
 initialCards.forEach((item) => {
   renderCard(item, sectionCards);
 });
+
+/* VALIDATOR */
+
+const setValidator = (settings, form) => {
+  const validity = new FormValidator(settings, form);
+  return validity;
+}
+
+const forms = Array.from(document.querySelectorAll(classNamesSettings.formSelector));
+forms.forEach((form) => {
+  setValidator(classNamesSettings, form).enableValidation();
+})
 
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
 
@@ -72,7 +81,7 @@ export const openPopup = (popup) => {
   popup.addEventListener('click', checkOverlayTarget);
 }
 
-/*PROFILE*/
+/* PROFILE EDIT FORM */
 const profileSection  = document.querySelector('.profile');
 const profileButton = profileSection.querySelector('.profile__edit-button');
 const profileName = profileSection.querySelector('.profile__name');
@@ -83,15 +92,11 @@ const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form
 const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
 const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
 
-const popupProfileEditSubmitButton = popupSectionProfileEdit.querySelector('.popup__submit-button');
-
 const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
-  const inputValidity = new FormValidator(classNamesSettings, popupFormProfileEdit);
-  inputValidity.checkInputValidity(popupInputProfileName);
-  inputValidity.checkInputValidity(popupInputProfileAbout);
+  setValidator(classNamesSettings, popupFormProfileEdit).hideInputErrors();
 };
 
 const editProfile = (evt) => {
@@ -104,13 +109,13 @@ const editProfile = (evt) => {
 profileButton.addEventListener('click', openPopupProfileEdit);
 popupFormProfileEdit.addEventListener('submit', editProfile);
 
-/*NEW PLACE*/
+/*NEW PLACE ADD FORM*/
+
 const newPlaceAddButton = document.querySelector('.add-button');
 const popupSectionNewPlace = document.querySelector('.popup_type_new-place');
 const popupFormNewPlace = popupSectionNewPlace.querySelector('.popup__form-container');
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
-const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__submit-button');
 
 const addNewCard = (evt) => {
   evt.preventDefault();
@@ -122,20 +127,13 @@ const addNewCard = (evt) => {
 
   popupFormNewPlace.reset();
   closePopup(popupSectionNewPlace);
-  const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
-  const buttonState = new FormValidator(classNamesSettings, popupFormNewPlace);
-  buttonState.changeButtonState();
+  setValidator(classNamesSettings, popupFormNewPlace).changeButtonState();
 }
 
 const openNewPlacePopup = (settings) => {
   popupFormNewPlace.reset();
-  const popupTextErrorListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__text-error'));
-  popupTextErrorListArray.forEach((textError) => {
-    textError.classList.remove(settings.errorClass);
-  })
-  const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
-  const buttonState = new FormValidator(classNamesSettings, popupFormNewPlace);
-  buttonState.changeButtonState();
+  setValidator(settings, popupFormNewPlace).hideInputErrors();
+  setValidator(settings, popupFormNewPlace).changeButtonState();
   openPopup(popupSectionNewPlace);
 }
 
