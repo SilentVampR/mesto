@@ -88,13 +88,13 @@ const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
 const popupNewPlaceSubmitButton = popupSectionNewPlace.querySelector('.popup__submit-button');
 
-const addNewElement = (evt) => {
+const addNewCard = (evt) => {
   evt.preventDefault();
-  const newElement  = {
+  const newCard  = {
     name: popupInputNewPlaceName.value,
     link: popupInputNewPlaceUrl.value
   }
-  sectionElements.prepend(createElement(newElement));
+  sectionCards.prepend(createCard(newCard));
   popupFormNewPlace.reset();
   closePopup(popupSectionNewPlace);
   const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
@@ -112,19 +112,19 @@ const openNewPlacePopup = (settings) => {
 }
 
 newPlaceAddButton.addEventListener('click', () => openNewPlacePopup(classNamesSettings));
-popupNewPlaceSubmitButton.addEventListener('click', addNewElement);
+popupNewPlaceSubmitButton.addEventListener('click', addNewCard);
 
-/*ELEMENTS*/
+/*CARDS*/
 
-const sectionElements = document.querySelector('.elements');
-const elementTemplate = sectionElements.querySelector('#elementTemplate').content;
+const sectionCards = document.querySelector('.cards');
+const cardTemplate = sectionCards.querySelector('#cardTemplate').content;
 
 const makeLikeActive = (evt) => {
-  evt.target.classList.toggle('element__like-button_active');
+  evt.target.classList.toggle('card__like-button_active');
 }
 
-const deleteElement = (evt) => {
-  evt.target.closest('.element').remove();
+const deleteCard = (evt) => {
+  evt.target.closest('.card').remove();
 }
 
 const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
@@ -140,32 +140,32 @@ const openPopupImage = (imgData) => {
   popupPhotoCaption.textContent = imgData.name;
 }
 
-/* CREATE ELEMENT */
+/* CREATE CARD */
 
-const createElement = (imgData) => {
-  const elementContainer = elementTemplate.querySelector('.element').cloneNode(true);
-  const elementImage = elementContainer.querySelector('.element__image');
-  const elementTitle = elementContainer.querySelector('.element__title');
-  const elementLikeButton = elementContainer.querySelector('.element__like-button');
-  const elementDeleteButton = elementContainer.querySelector('.element__delete-button');
+const createCard = (imgData) => {
+  const cardContainer = cardTemplate.querySelector('.card').cloneNode(true);
+  const cardImage = cardContainer.querySelector('.card__image');
+  const cardTitle = cardContainer.querySelector('.card__title');
+  const cardLikeButton = cardContainer.querySelector('.card__like-button');
+  const cardDeleteButton = cardContainer.querySelector('.card__delete-button');
 
-  elementTitle.textContent = imgData.name;
-  elementImage.src = imgData.link;
-  elementImage.alt = imgData.name;
+  cardTitle.textContent = imgData.name;
+  cardImage.src = imgData.link;
+  cardImage.alt = imgData.name;
 
-  elementLikeButton.addEventListener('click', makeLikeActive);
-  elementDeleteButton.addEventListener('click', deleteElement);
-  elementImage.addEventListener('click', () => openPopupImage(imgData));
+  cardLikeButton.addEventListener('click', makeLikeActive);
+  cardDeleteButton.addEventListener('click', deleteCard);
+  cardImage.addEventListener('click', () => openPopupImage(imgData));
 
-  return elementContainer;
+  return cardContainer;
 }
 
 /* ЗАГРУЖАЕМ ЭЛЕМЕНТЫ ИЗ "БАЗЫ" НА СТРАНИЦУ*/
 
-const loadElements = (container) => {
-  initialElements.forEach((element) => {
-    container.prepend(createElement(element));
+const loadCards = (container) => {
+  initialCards.forEach((card) => {
+    container.prepend(createCard(card));
   })
 }
 
-loadElements(sectionElements);
+loadCards(sectionCards);

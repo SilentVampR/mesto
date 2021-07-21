@@ -1,4 +1,4 @@
-.element__delete-button {
+.card__delete-button {
   position: absolute;
   z-index: 1;
   top: 18px;
@@ -13,7 +13,7 @@
   height: 20px;
 }
 
-.element__delete-button:hover {
+.card__delete-button:hover {
   opacity: 0.5;
   cursor: pointer;
 }

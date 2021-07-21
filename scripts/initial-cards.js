@@ -1,4 +1,4 @@
-const initialElements = [
+const initialCards = [
   {
     name: 'Воскресеновка',
     link: './images/river_tom_01.jpg'
