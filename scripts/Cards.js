@@ -4,14 +4,15 @@ const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
 export class Card {
-  constructor(data) {
+  constructor(data, template) {
     this._image = data.link;
     this._name = data.name;
+    this._template = template;
   }
 
   _getTemplate() {
     const cardElement = document
-    .querySelector('#cardTemplate')
+    .querySelector(this._template)
     .content
     .querySelector('.card')
     .cloneNode(true);
@@ -35,7 +36,8 @@ export class Card {
   }
 
   _handlerDeleteButtonClick() {
-      this._element.closest('.card').remove();
+      this._element.remove();
+      this._element = null;
   }
 
   _handlerImageClick() {

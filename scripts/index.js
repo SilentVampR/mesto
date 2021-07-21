@@ -10,7 +10,20 @@ const classNamesSettings = {
   inputErrorClass: 'popup__input_state_not-valid',
   errorClass: 'popup__text-error_state_not-valid',
   inputContainer: '.popup__input-container',
-  errorText: '.popup__text-error'
+  errorText: '.popup__text-error',
+  templateId: '#cardTemplate'
+}
+
+const sectionCards = document.querySelector('.cards');
+
+const createCard = (item) => {
+  const card = new Card(item, classNamesSettings.templateId);
+  const cardElement = card.generateCard();
+  return cardElement;
+}
+
+const renderCard = (item, section) => {
+  section.prepend(createCard(item));
 }
 
 const forms = Array.from(document.querySelectorAll(classNamesSettings.formSelector));
@@ -20,10 +33,7 @@ forms.forEach((form) => {
 })
 
 initialCards.forEach((item) => {
-  const card = new Card(item);
-  const cardElement = card.generateCard();
-  const sectionCards = document.querySelector('.cards');
-  sectionCards.prepend(cardElement);
+  renderCard(item, sectionCards);
 });
 
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
@@ -69,7 +79,7 @@ const profileName = profileSection.querySelector('.profile__name');
 const profileAbout = profileSection.querySelector('.profile__about');
 
 const popupSectionProfileEdit = document.querySelector('.popup_type_profile-edit');
-
+const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form-container');
 const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
 const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
 
@@ -79,7 +89,7 @@ const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
-  const inputValidity = new FormValidator(classNamesSettings);
+  const inputValidity = new FormValidator(classNamesSettings, popupFormProfileEdit);
   inputValidity.checkInputValidity(popupInputProfileName);
   inputValidity.checkInputValidity(popupInputProfileAbout);
 };
@@ -92,7 +102,7 @@ const editProfile = (evt) => {
 }
 
 profileButton.addEventListener('click', openPopupProfileEdit);
-popupProfileEditSubmitButton.addEventListener('click', editProfile);
+popupFormProfileEdit.addEventListener('submit', editProfile);
 
 /*NEW PLACE*/
 const newPlaceAddButton = document.querySelector('.add-button');
@@ -108,16 +118,13 @@ const addNewCard = (evt) => {
     name: popupInputNewPlaceName.value,
     link: popupInputNewPlaceUrl.value
   }
-  const card = new Card(newCardData);
-  const cardElement = card.generateCard();
-  const sectionCards = document.querySelector('.cards');
-  sectionCards.prepend(cardElement);
+  renderCard(newCardData, sectionCards);
 
   popupFormNewPlace.reset();
   closePopup(popupSectionNewPlace);
   const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
   const buttonState = new FormValidator(classNamesSettings, popupFormNewPlace);
-  buttonState.changeButtonState(newPlaceInputListArray);
+  buttonState.changeButtonState();
 }
 
 const openNewPlacePopup = (settings) => {
@@ -128,9 +135,9 @@ const openNewPlacePopup = (settings) => {
   })
   const newPlaceInputListArray = Array.from(popupFormNewPlace.querySelectorAll('.popup__input'));
   const buttonState = new FormValidator(classNamesSettings, popupFormNewPlace);
-  buttonState.changeButtonState(newPlaceInputListArray);
+  buttonState.changeButtonState();
   openPopup(popupSectionNewPlace);
 }
 
 newPlaceAddButton.addEventListener('click', () => openNewPlacePopup(classNamesSettings));
-popupNewPlaceSubmitButton.addEventListener('click', addNewCard);
+popupFormNewPlace.addEventListener('submit', addNewCard);
