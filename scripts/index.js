@@ -14,7 +14,6 @@ const classNamesSettings = {
   templateId: '#cardTemplate'
 }
 
-
 /* CARDS */
 
 const sectionCards = document.querySelector('.cards');
@@ -33,19 +32,7 @@ initialCards.forEach((item) => {
   renderCard(item, sectionCards);
 });
 
-/* VALIDATOR */
-
-const setValidator = (settings, form) => {
-  const validity = new FormValidator(settings, form);
-  return validity;
-}
-
-const forms = Array.from(document.querySelectorAll(classNamesSettings.formSelector));
-forms.forEach((form) => {
-  setValidator(classNamesSettings, form).enableValidation();
-})
-
-/* ЗАКРЫТЬ ОТКРЫТЬ POPUP*/
+/* ЗАКРЫТЬ ОТКРЫТЬ POPUP */
 
 const checkKey = (evt) => {
   if(evt.key === 'Escape') {
@@ -89,15 +76,21 @@ const profileAbout = profileSection.querySelector('.profile__about');
 
 const popupSectionProfileEdit = document.querySelector('.popup_type_profile-edit');
 const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form-container');
+
 const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
 const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
 
-const openPopupProfileEdit = (settings) => {
+/* VALIDATOR */
+const validatorForProfileForm = new FormValidator(classNamesSettings, popupFormProfileEdit);
+validatorForProfileForm.enableValidation();
+
+/* OPEN CLOSE PROFILE FUNCTIONS */
+
+const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
-  setValidator(settings, popupFormProfileEdit).hideInputErrors();
-  setValidator(settings, popupFormProfileEdit).changeButtonState();
+  validatorForProfileForm.hideInputErrors();
 };
 
 const editProfile = (evt) => {
@@ -107,7 +100,7 @@ const editProfile = (evt) => {
   closePopup(popupSectionProfileEdit);
 }
 
-profileButton.addEventListener('click', () => openPopupProfileEdit(classNamesSettings));
+profileButton.addEventListener('click', openPopupProfileEdit);
 popupFormProfileEdit.addEventListener('submit', editProfile);
 
 /*NEW PLACE ADD FORM*/
@@ -115,9 +108,15 @@ popupFormProfileEdit.addEventListener('submit', editProfile);
 const newPlaceAddButton = document.querySelector('.add-button');
 const popupSectionNewPlace = document.querySelector('.popup_type_new-place');
 const popupFormNewPlace = popupSectionNewPlace.querySelector('.popup__form-container');
+
 const popupInputNewPlaceName = popupSectionNewPlace.querySelector('.popup__input_place_name');
 const popupInputNewPlaceUrl = popupSectionNewPlace.querySelector('.popup__input_place_url');
 
+/* VALIDATOR */
+const validatorForNewPlaceForm = new FormValidator(classNamesSettings, popupFormNewPlace);
+validatorForNewPlaceForm.enableValidation();
+
+/* OPEN CLOSE PROFILE FUNCTIONS */
 const addNewCard = (evt) => {
   evt.preventDefault();
   const newCardData  = {
@@ -125,18 +124,14 @@ const addNewCard = (evt) => {
     link: popupInputNewPlaceUrl.value
   }
   renderCard(newCardData, sectionCards);
-
-  popupFormNewPlace.reset();
   closePopup(popupSectionNewPlace);
-  setValidator(classNamesSettings, popupFormNewPlace).changeButtonState();
 }
 
-const openNewPlacePopup = (settings) => {
+const openNewPlacePopup = () => {
   popupFormNewPlace.reset();
-  setValidator(settings, popupFormNewPlace).hideInputErrors();
-  setValidator(settings, popupFormNewPlace).changeButtonState();
+  validatorForNewPlaceForm.hideInputErrors();
   openPopup(popupSectionNewPlace);
 }
 
-newPlaceAddButton.addEventListener('click', () => openNewPlacePopup(classNamesSettings));
+newPlaceAddButton.addEventListener('click', openNewPlacePopup);
 popupFormNewPlace.addEventListener('submit', addNewCard);

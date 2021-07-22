@@ -19,6 +19,7 @@ export class FormValidator {
   hideInputErrors() {
     this._inputListArray.forEach((inputElement) => {
         this._toggleInputError('hide', inputElement);
+        this.changeButtonState();
     })
   }
 
