@@ -1,18 +1,9 @@
-import initialCards from "./initial-cards.js";
+import {
+  initialCards,
+  classNamesSettings
+} from "./constants.js";
 import { Card } from "./Cards.js";
 import { FormValidator } from "./FormValidator.js";
-
-const classNamesSettings = {
-  formSelector: '.popup__form-container',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__submit-button',
-  inactiveButtonClass: 'popup__submit-button_disabled',
-  inputErrorClass: 'popup__input_state_not-valid',
-  errorClass: 'popup__text-error_state_not-valid',
-  inputContainer: '.popup__input-container',
-  errorText: '.popup__text-error',
-  templateId: '#cardTemplate'
-}
 
 /* CARDS */
 
