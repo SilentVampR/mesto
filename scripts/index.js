@@ -2,8 +2,9 @@ import {
   initialCards,
   classNamesSettings
 } from "./constants.js";
-import { Card } from "./Cards.js";
-import { FormValidator } from "./FormValidator.js";
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+import Popup from "./Popup.js";
 
 /* CARDS */
 
@@ -65,15 +66,17 @@ const profileButton = profileSection.querySelector('.profile__edit-button');
 const profileName = profileSection.querySelector('.profile__name');
 const profileAbout = profileSection.querySelector('.profile__about');
 
-const popupSectionProfileEdit = document.querySelector('.popup_type_profile-edit');
-const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form-container');
+//const popupSectionProfileEdit = document.querySelector('.popup_type_profile-edit');
+const profile = new Popup('.popup_type_profile-edit')
+profileButton.addEventListener('click', () => profile.open());
+//const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form-container');
 
-const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
-const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
+//const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
+//const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
 
 /* VALIDATOR */
-const validatorForProfileForm = new FormValidator(classNamesSettings, popupFormProfileEdit);
-validatorForProfileForm.enableValidation();
+//const validatorForProfileForm = new FormValidator(classNamesSettings, popupFormProfileEdit);
+//validatorForProfileForm.enableValidation();
 
 /* OPEN CLOSE PROFILE FUNCTIONS */
 
@@ -91,8 +94,8 @@ const editProfile = (evt) => {
   closePopup(popupSectionProfileEdit);
 }
 
-profileButton.addEventListener('click', openPopupProfileEdit);
-popupFormProfileEdit.addEventListener('submit', editProfile);
+//profileButton.addEventListener('click', openPopupProfileEdit);
+//popupFormProfileEdit.addEventListener('submit', editProfile);
 
 /*NEW PLACE ADD FORM*/
 

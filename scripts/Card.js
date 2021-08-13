@@ -3,7 +3,7 @@ const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
 
-export class Card {
+export default class Card {
   constructor(data, template) {
     this._image = data.link;
     this._name = data.name;

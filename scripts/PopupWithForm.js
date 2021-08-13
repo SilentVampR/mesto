@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 
-class PopupWithForm extends Popup {
+export default class PopupWithForm extends Popup {
   constructor(formSubmitCallback) {
     this._formSubmitCallBack = formSubmitCallback;
   }
