@@ -77,6 +77,9 @@ const userInfo = new UserInfo({
   aboutSelector: classNamesSettings.aboutSelector
 });
 
+document.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
+document.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;
+
 const profile = new PopupWithForm({
   formSelector: classNamesSettings.formSelector,
   inputSelector: classNamesSettings.inputSelector,
