@@ -4,7 +4,9 @@ import {
 } from "./constants.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
-import Popup from "./Popup.js";
+//import Popup from "./Popup.js";
+import PopupWithForm from "./PopupWithForm.js";
+import UserInfo from "./UserInfo.js";
 
 /* CARDS */
 
@@ -63,12 +65,30 @@ export const openPopup = (popup) => {
 /* PROFILE EDIT FORM */
 const profileSection  = document.querySelector('.profile');
 const profileButton = profileSection.querySelector('.profile__edit-button');
-const profileName = profileSection.querySelector('.profile__name');
-const profileAbout = profileSection.querySelector('.profile__about');
+/*const profileName = profileSection.querySelector('.profile__name');
+const profileAbout = profileSection.querySelector('.profile__about');*/
 
 //const popupSectionProfileEdit = document.querySelector('.popup_type_profile-edit');
-const profile = new Popup('.popup_type_profile-edit')
+// ВРЕМЕННЫЙ ВЫЗОВ Popup В ПОСЛЕДСТВИИ МЕНЯЕМ НА PopupWithForm
+//const profile = new Popup('.popup_type_profile-edit');
+
+const userInfo = new UserInfo({
+  nameSelector: classNamesSettings.nameSelector,
+  aboutSelector: classNamesSettings.aboutSelector
+});
+
+document.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
+document.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;
+
+const profile = new PopupWithForm({
+  formSelector: classNamesSettings.formSelector,
+  inputSelector: classNamesSettings.inputSelector,
+  formSubmitCallback: (data) => {
+    userInfo.setUserInfo(data);
+  }
+}, '.popup_type_profile-edit');
 profileButton.addEventListener('click', () => profile.open());
+
 //const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form-container');
 
 //const popupInputProfileName = popupSectionProfileEdit.querySelector('.popup__input_author_name');
@@ -80,7 +100,7 @@ profileButton.addEventListener('click', () => profile.open());
 
 /* OPEN CLOSE PROFILE FUNCTIONS */
 
-const openPopupProfileEdit = () => {
+/*const openPopupProfileEdit = () => {
   openPopup(popupSectionProfileEdit);
   popupInputProfileName.value = profileName.textContent;
   popupInputProfileAbout.value = profileAbout.textContent;
@@ -93,7 +113,7 @@ const editProfile = (evt) => {
   profileAbout.textContent = popupInputProfileAbout.value;
   closePopup(popupSectionProfileEdit);
 }
-
+*/
 //profileButton.addEventListener('click', openPopupProfileEdit);
 //popupFormProfileEdit.addEventListener('submit', editProfile);
 

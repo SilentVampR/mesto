@@ -1,7 +1,7 @@
 import PopupWithImage from './PopupWithImage.js';
-const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
+/*const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
-const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
+const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');*/
 
 export default class Card {
   constructor(data, template) {
