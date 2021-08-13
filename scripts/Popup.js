@@ -19,7 +19,11 @@ export default class Popup {
     }
   }
 
-  open() {
+  open(profile) {
+    if(profile) {
+      this._popup.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
+      this._popup.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;
+    }
     this._popup.classList.add('popup_opened');
     this.setEventListeners();
   }
