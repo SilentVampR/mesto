@@ -1,4 +1,4 @@
-import { openPopup } from "./index.js";
+import PopupWithImage from './PopupWithImage.js';
 const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
 const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
 const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');
@@ -41,10 +41,17 @@ export default class Card {
   }
 
   _handlerImageClick() {
-    popupPhotoImage.src = this._image;
+    const popupImage = new PopupWithImage({
+      data: {
+        image: this._image,
+        name: this._name,
+      }
+    }, '.popup_type_image-overlay');
+    popupImage.open();
+    /*popupPhotoImage.src = this._image;
     popupPhotoImage.alt = this._name;
     popupPhotoCaption.textContent = this._name;
-    openPopup(popupSectionImage);
+    openPopup(popupSectionImage);*/
   }
 
   generateCard() {
