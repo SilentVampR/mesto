@@ -1,0 +1,15 @@
+.margin_1 {
+	margin: 0;
+	margin-left: 20px;
+}
+
+.margin_2 {
+	margin-top: 0;
+	margin-right: 0;
+	margin-bottom: 0;
+	margin-left: 20px;
+}
+
+.margin_3 {
+	margin: 0 0 0 20px;
+}

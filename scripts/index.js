@@ -77,8 +77,8 @@ const userInfo = new UserInfo({
   aboutSelector: classNamesSettings.aboutSelector
 });
 
-document.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
-document.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;
+/*document.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
+document.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;*/
 
 const profile = new PopupWithForm({
   formSelector: classNamesSettings.formSelector,
@@ -87,7 +87,7 @@ const profile = new PopupWithForm({
     userInfo.setUserInfo(data);
   }
 }, '.popup_type_profile-edit');
-profileButton.addEventListener('click', () => profile.open());
+profileButton.addEventListener('click', () => profile.open(userInfo.getUserInfo()));
 
 //const popupFormProfileEdit = popupSectionProfileEdit.querySelector('.popup__form-container');
 
@@ -95,8 +95,8 @@ profileButton.addEventListener('click', () => profile.open());
 //const popupInputProfileAbout = popupSectionProfileEdit.querySelector('.popup__input_author_about');
 
 /* VALIDATOR */
-//const validatorForProfileForm = new FormValidator(classNamesSettings, popupFormProfileEdit);
-//validatorForProfileForm.enableValidation();
+const validatorForProfileForm = new FormValidator(classNamesSettings, popupFormProfileEdit);
+validatorForProfileForm.enableValidation();
 
 /* OPEN CLOSE PROFILE FUNCTIONS */
 
