@@ -1,13 +1,12 @@
-import PopupWithImage from './PopupWithImage.js';
-/*const popupSectionImage  = document.querySelector('.popup_type_image-overlay');
-const popupPhotoImage = popupSectionImage.querySelector('.popup__image');
-const popupPhotoCaption = popupSectionImage.querySelector('.popup__image-caption');*/
-
 export default class Card {
-  constructor(data, template) {
-    this._image = data.link;
+  constructor({ data, imageOpener }, template) {
+    this._image = data.image;
     this._name = data.name;
     this._template = template;
+    this._imageOpener = imageOpener;
+    this._handlerLikeButtonClick = this._handlerLikeButtonClick.bind(this);
+    this._handlerDeleteButtonClick = this._handlerDeleteButtonClick.bind(this);
+    this._handlerImageClick = this._handlerImageClick.bind(this);
   }
 
   _getTemplate() {
@@ -20,15 +19,9 @@ export default class Card {
   }
 
   _setEventListeners(){
-    this._element.querySelector('.card__like-button').addEventListener('click', () => {
-      this._handlerLikeButtonClick();
-    });
-    this._element.querySelector('.card__delete-button').addEventListener('click', () => {
-      this._handlerDeleteButtonClick();
-    });
-    this._element.querySelector('.card__image').addEventListener('click', () => {
-      this._handlerImageClick();
-    });
+    this._element.querySelector('.card__like-button').addEventListener('click', this._handlerLikeButtonClick);
+    this._element.querySelector('.card__delete-button').addEventListener('click', this._handlerDeleteButtonClick);
+    this._element.querySelector('.card__image').addEventListener('click', this._handlerImageClick);
   }
 
   _handlerLikeButtonClick() {
@@ -41,17 +34,7 @@ export default class Card {
   }
 
   _handlerImageClick() {
-    const popupImage = new PopupWithImage({
-      data: {
-        image: this._image,
-        name: this._name,
-      }
-    }, '.popup_type_image-overlay');
-    popupImage.open();
-    /*popupPhotoImage.src = this._image;
-    popupPhotoImage.alt = this._name;
-    popupPhotoCaption.textContent = this._name;
-    openPopup(popupSectionImage);*/
+    this._imageOpener();
   }
 
   generateCard() {

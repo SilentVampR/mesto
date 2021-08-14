@@ -11,53 +11,53 @@ import riverTomSandShore from '../images/river_tom_06.jpg';*/
 /*export const initialCards = [
   {
     name: 'Воскресеновка',
-    link: riverTomVoskresenovka
+    image: riverTomVoskresenovka
   },
   {
     name: 'Серышевский район',
-    link: riverTomSerishevskii
+    image: riverTomSerishevskii
   },
   {
     name: 'Река Томь',
-    link: riverTomRiver
+    image: riverTomRiver
   },
   {
     name: 'Небо над рекой Томь',
-    link: riverTomSky
+    image: riverTomSky
   },
   {
     name: 'Ночной костёр',
-    link: riverTomFire
+    image: riverTomFire
   },
   {
     name: 'Песчаный берег Томи',
-    link: riverTomSandShore
+    image: riverTomSandShore
   }
 ];*/
 export const initialCards = [
   {
     name: 'Воскресеновка',
-    link: './images/river_tom_01.jpg'
+    image: './images/river_tom_01.jpg'
   },
   {
     name: 'Серышевский район',
-    link: './images/river_tom_02.jpg'
+    image: './images/river_tom_02.jpg'
   },
   {
     name: 'Река Томь',
-    link: './images/river_tom_03.jpg'
+    image: './images/river_tom_03.jpg'
   },
   {
     name: 'Небо над рекой Томь',
-    link: './images/river_tom_04.jpg'
+    image: './images/river_tom_04.jpg'
   },
   {
     name: 'Ночной костёр',
-    link: './images/river_tom_05.jpg'
+    image: './images/river_tom_05.jpg'
   },
   {
     name: 'Песчаный берег Томи',
-    link: './images/river_tom_06.jpg'
+    image: './images/river_tom_06.jpg'
   }
 ];
 
@@ -71,6 +71,6 @@ export const classNamesSettings = {
   inputContainer: '.popup__input-container',
   errorText: '.popup__text-error',
   templateId: '#cardTemplate',
-  nameSelector: '.profile__name',
-  aboutSelector: '.profile__about',
+  profileNameSelector: '.profile__name',
+  profileAboutSelector: '.profile__about',
 }
