@@ -23,6 +23,7 @@ export default class PopupWithForm extends Popup {
   _handleSubmit(evt){
     evt.preventDefault();
     this._formSubmitCallBack(this._getInputValues());
+    this._formElement.reset();
     this.close();
   }
 
@@ -34,7 +35,6 @@ export default class PopupWithForm extends Popup {
   }
 
   close() {
-    this._formElement.reset();
     this._popup.classList.remove('popup_opened');
     document.removeEventListener('keyup', this._handleEscClose);
     this._formElement.addEventListener('submit', this._handleSubmit);
