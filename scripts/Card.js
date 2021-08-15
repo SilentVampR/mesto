@@ -1,7 +1,7 @@
 export default class Card {
   constructor({ data, imageOpener }, template) {
-    this._image = data.image;
-    this._name = data.name;
+    this._image = data.image || data.placeUrl;
+    this._name = data.name || data.placeName;
     this._template = template;
     this._imageOpener = imageOpener;
     this._handlerLikeButtonClick = this._handlerLikeButtonClick.bind(this);

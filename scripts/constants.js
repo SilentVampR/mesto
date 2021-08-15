@@ -5,9 +5,6 @@ import riverTomSky from '../images/river_tom_04.jpg';
 import riverTomFire from '../images/river_tom_05.jpg';
 import riverTomSandShore from '../images/river_tom_06.jpg';*/
 
-
-
-
 /*export const initialCards = [
   {
     name: 'Воскресеновка',
@@ -73,4 +70,5 @@ export const classNamesSettings = {
   templateId: '#cardTemplate',
   profileNameSelector: '.profile__name',
   profileAboutSelector: '.profile__about',
+  sectionCards: '.cards',
 }

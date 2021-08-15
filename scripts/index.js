@@ -8,12 +8,29 @@ import FormValidator from "./FormValidator.js";
 import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
 import PopupWithImage from './PopupWithImage.js';
+import Section from './Section.js';
 
 /* CARDS */
 
-const sectionCards = document.querySelector('.cards');
+const cardList = new Section ({
+  items: initialCards,
+  renderer: (item)=> {
+    const card = new Card({
+      data: item,
+      imageOpener: () => {
+        const popupImage = new PopupWithImage({
+          data: item
+        }, '.popup_type_image-overlay');
+        popupImage.open();
+      }
+     }, classNamesSettings.templateId);
+     const cardELement = card.generateCard();
+     cardList.addItem(cardELement);
+    }
+  }, classNamesSettings.sectionCards);
 
-const createCard = (item) => {
+  cardList.renderItem();
+/*const createCard = (item) => {
   const card = new Card({
     data: item,
     imageOpener: () => {
@@ -34,7 +51,7 @@ const renderCard = (item, section) => {
 initialCards.forEach((item) => {
   renderCard(item, sectionCards);
 });
-
+*/
 /* ЗАКРЫТЬ ОТКРЫТЬ POPUP */
 
 /*const checkKey = (evt) => {
@@ -102,8 +119,8 @@ const validatorForProfileForm = new FormValidator(classNamesSettings, profile._f
 validatorForProfileForm.enableValidation();
 
 const handlerOpenProfile = () => {
-  document.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
-  document.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;
+  profile._popup.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
+  profile._popup.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;
   validatorForProfileForm.hideInputErrors();
   profile.open();
 }
@@ -143,21 +160,36 @@ const newPlaceAddButton = document.querySelector('.add-button');
 const newPlace = new PopupWithForm({
   formSelector: classNamesSettings.formSelector,
   inputSelector: classNamesSettings.inputSelector,
-  formSubmitCallback: (evt) => {
-    evt.preventDefault();
-    const newCardData  = {
+  formSubmitCallback: (data) => {
+    const newCard = new Section ({
+      items: [data],
+      renderer: (item)=> {
+        const card = new Card({
+          data: item,
+          imageOpener: () => {
+            const popupImage = new PopupWithImage({
+              data: item
+            }, '.popup_type_image-overlay');
+            popupImage.open();
+          }
+         }, classNamesSettings.templateId);
+         const cardELement = card.generateCard();
+         newCard.addItem(cardELement);
+        }
+      }, classNamesSettings.sectionCards);
+
+      newCard.renderItem();
+    /*const newCardData  = {
       name: popupInputNewPlaceName.value,
       link: popupInputNewPlaceUrl.value
     }
-    renderCard(newCardData, sectionCards);
+    renderCard(newCardData, sectionCards);*/
   }
 }, '.popup_type_new-place');
 
 /* VALIDATOR */
 const validatorForNewPlaceForm = new FormValidator(classNamesSettings, newPlace._formElement);
 validatorForNewPlaceForm.enableValidation();
-
-console.log(newPlace._formElement);
 
 const handleOpenNewPlace = () => {
   validatorForNewPlaceForm.hideInputErrors();
