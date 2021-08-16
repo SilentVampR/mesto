@@ -2,30 +2,33 @@ import './index.css';
 import {
   initialCards,
   classNamesSettings
-} from "./scripts/constants.js";
-import Card from "./scripts/components/Card.js";
-import FormValidator from "./scripts/components/FormValidator.js";
-import PopupWithForm from "./scripts/components/PopupWithForm.js";
-import UserInfo from "./scripts/components/UserInfo.js";
-import PopupWithImage from './scripts/components/PopupWithImage.js';
-import Section from './scripts/components/Section.js';
+} from "../scripts/constants.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+import PopupWithImage from '../components/PopupWithImage.js';
+import Section from '../components/Section.js';
 
 /* CARDS */
+
+const popupImage = new PopupWithImage('.popup_type_image-overlay');
+popupImage.setEventListeners();
+
+const getCardElement = (item) => {
+  const card = new Card({
+    data: item,
+    imageOpener: () => {
+      popupImage.open({ data: { name: item.name, image: item.image } });
+    }
+   }, classNamesSettings.templateId);
+   return card.generateCard();
+}
 
 const cardList = new Section ({
   items: initialCards,
   renderer: (item)=> {
-    const card = new Card({
-      data: item,
-      imageOpener: () => {
-        const popupImage = new PopupWithImage({
-          data: item
-        }, '.popup_type_image-overlay');
-        popupImage.open();
-      }
-     }, classNamesSettings.templateId);
-     const cardELement = card.generateCard();
-     cardList.addItem(cardELement);
+     cardList.addItem(getCardElement(item));
     }
   }, classNamesSettings.sectionCards);
 
@@ -41,7 +44,7 @@ const userInfo = new UserInfo({
   profileAboutSelector: classNamesSettings.profileAboutSelector
 });
 
-const profile = new PopupWithForm({
+const editProfilePopup = new PopupWithForm({
   formSelector: classNamesSettings.formSelector,
   inputSelector: classNamesSettings.inputSelector,
   formSubmitCallback: (data) => {
@@ -50,16 +53,17 @@ const profile = new PopupWithForm({
 }, '.popup_type_profile-edit');
 
 /* VALIDATOR */
-const validatorForProfileForm = new FormValidator(classNamesSettings, profile._formElement);
+const validatorForProfileForm = new FormValidator(classNamesSettings, editProfilePopup._formElement);
 validatorForProfileForm.enableValidation();
 
 const handlerOpenProfile = () => {
-  profile._popup.querySelector('.popup__input_author_name').value = userInfo.getUserInfo().name;
-  profile._popup.querySelector('.popup__input_author_about').value = userInfo.getUserInfo().about;
+  const { name, about } = userInfo.getUserInfo();
+  editProfilePopup._popup.querySelector('.popup__input_author_name').value = name;
+  editProfilePopup._popup.querySelector('.popup__input_author_about').value = about;
   validatorForProfileForm.hideInputErrors();
-  profile.open();
+  editProfilePopup.open();
 }
-
+editProfilePopup.setEventListeners();
 profileButton.addEventListener('click', handlerOpenProfile);
 
 
@@ -72,22 +76,12 @@ const newPlace = new PopupWithForm({
   inputSelector: classNamesSettings.inputSelector,
   formSubmitCallback: (data) => {
     const newCard = new Section ({
-      items: [data],
+      items: [{image: data.placeUrl, name: data.placeName}],
       renderer: (item)=> {
-        const card = new Card({
-          data: item,
-          imageOpener: () => {
-            const popupImage = new PopupWithImage({
-              data: item
-            }, '.popup_type_image-overlay');
-            popupImage.open();
-          }
-         }, classNamesSettings.templateId);
-         const cardELement = card.generateCard();
-         newCard.addItem(cardELement);
-        }
-      }, classNamesSettings.sectionCards);
-      newCard.renderItem();
+        newCard.addItem(getCardElement(item));
+      }
+    }, classNamesSettings.sectionCards);
+    newCard.renderItem();
   }
 }, '.popup_type_new-place');
 
@@ -99,5 +93,5 @@ const handleOpenNewPlace = () => {
   validatorForNewPlaceForm.hideInputErrors();
   newPlace.open();
 }
-
+newPlace.setEventListeners();
 newPlaceAddButton.addEventListener('click', handleOpenNewPlace);

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="<%=require('./favicon.ico')%>" type="image/x-icon">
     <title>Mesto - Russia by Евгений Корсунов</title>
   </head>
   <body class="page">
@@ -24,7 +24,7 @@
         <section class="cards">
           <template id="cardTemplate">
             <div class="card">
-              <img src="<%=require('./images/temp_image.jpg')%>" alt="Временное описание" class="card__image">
+              <img src="" alt="" class="card__image">
               <button class="card__delete-button" type="button"></button>
               <div class="card__footer">
                 <h2 class="card__title"></h2>
@@ -70,7 +70,7 @@
     </div>
     <div class="popup popup_type_image-overlay">
       <figure class="popup__image-container">
-        <img src="<%=require('./images/temp_image.jpg')%>" alt="Нет описания" class="popup__image">
+        <img src="" alt="" class="popup__image">
         <button class="popup__close-button" type="button"></button>
         <figcaption class="popup__image-caption"></figcaption>
       </figure>

@@ -1,17 +1,17 @@
 export default class Card {
-  constructor({ data, imageOpener }, template) {
-    this._image = data.image || data.placeUrl;
-    this._name = data.name || data.placeName;
-    this._template = template;
+  constructor({ data, imageOpener }, templateSelector) {
+    this._image = data.image;
+    this._name = data.name;
+    this._templateSelector = templateSelector;
     this._imageOpener = imageOpener;
     this._handlerLikeButtonClick = this._handlerLikeButtonClick.bind(this);
     this._handlerDeleteButtonClick = this._handlerDeleteButtonClick.bind(this);
-    this._handlerImageClick = this._handlerImageClick.bind(this);
+    this._imageOpener = this._imageOpener.bind(this);
   }
 
   _getTemplate() {
     const cardElement = document
-    .querySelector(this._template)
+    .querySelector(this._templateSelector)
     .content
     .querySelector('.card')
     .cloneNode(true);
@@ -21,7 +21,7 @@ export default class Card {
   _setEventListeners(){
     this._element.querySelector('.card__like-button').addEventListener('click', this._handlerLikeButtonClick);
     this._element.querySelector('.card__delete-button').addEventListener('click', this._handlerDeleteButtonClick);
-    this._element.querySelector('.card__image').addEventListener('click', this._handlerImageClick);
+    this._element.querySelector('.card__image').addEventListener('click', this._imageOpener);
   }
 
   _handlerLikeButtonClick() {
@@ -29,12 +29,8 @@ export default class Card {
   }
 
   _handlerDeleteButtonClick() {
-      this._element.remove();
-      this._element = null;
-  }
-
-  _handlerImageClick() {
-    this._imageOpener();
+    this._element.remove();
+    this._element = null;
   }
 
   generateCard() {
