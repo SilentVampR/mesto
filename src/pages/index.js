@@ -2,7 +2,7 @@ import './index.css';
 import {
   initialCards,
   classNamesSettings
-} from "../scripts/constants.js";
+} from "../constants/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -25,19 +25,18 @@ const getCardElement = (item) => {
    return card.generateCard();
 }
 
-const cardList = new Section ({
+const cardsSection = new Section ({
   items: initialCards,
   renderer: (item)=> {
-     cardList.addItem(getCardElement(item));
-    }
-  }, classNamesSettings.sectionCards);
+    cardsSection.addItem(getCardElement(item));
+  }
+}, classNamesSettings.sectionCards);
 
-  cardList.renderItem();
+cardsSection.renderItem();
 
 /* PROFILE EDIT FORM */
 const profileSection  = document.querySelector('.profile');
 const profileButton = profileSection.querySelector('.profile__edit-button');
-
 
 const userInfo = new UserInfo({
   profileNameSelector: classNamesSettings.profileNameSelector,
@@ -75,15 +74,11 @@ const newPlace = new PopupWithForm({
   formSelector: classNamesSettings.formSelector,
   inputSelector: classNamesSettings.inputSelector,
   formSubmitCallback: (data) => {
-    const newCard = new Section ({
-      items: [{image: data.placeUrl, name: data.placeName}],
-      renderer: (item)=> {
-        newCard.addItem(getCardElement(item));
-      }
-    }, classNamesSettings.sectionCards);
-    newCard.renderItem();
+    const newCard = getCardElement({image: data.placeUrl, name: data.placeName});
+    cardsSection.addItem(newCard);
   }
 }, '.popup_type_new-place');
+
 
 /* VALIDATOR */
 const validatorForNewPlaceForm = new FormValidator(classNamesSettings, newPlace._formElement);
