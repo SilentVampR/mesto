@@ -25,10 +25,14 @@ const getCardElement = (item) => {
    return card.generateCard();
 }
 
+const addElement = (data) => {
+  cardsSection.addItem(getCardElement(data));
+}
+
 const cardsSection = new Section ({
   items: initialCards,
   renderer: (item)=> {
-    cardsSection.addItem(getCardElement(item));
+    addElement(item);
   }
 }, classNamesSettings.sectionCards);
 
@@ -74,8 +78,7 @@ const newPlace = new PopupWithForm({
   formSelector: classNamesSettings.formSelector,
   inputSelector: classNamesSettings.inputSelector,
   formSubmitCallback: (data) => {
-    const newCard = getCardElement({image: data.placeUrl, name: data.placeName});
-    cardsSection.addItem(newCard);
+    addElement({image: data.placeUrl, name: data.placeName});
   }
 }, '.popup_type_new-place');
 
