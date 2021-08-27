@@ -5,30 +5,39 @@ const riverTomSky = new URL('../images/river_tom_04.jpg', import.meta.url);
 const riverTomFire = new URL('../images/river_tom_05.jpg', import.meta.url);
 const riverTomSandShore = new URL('../images/river_tom_06.jpg', import.meta.url);
 
+export const apiToken = "beb35b1a-7d6a-4743-95a3-06e29b783755";
+export const url = "https://mesto.nomoreparties.co/v1/" + "cohort-27";
+
 export const initialCards = [
   {
     name: 'Воскресеновка',
-    image: riverTomVoskresenovka
+    link: riverTomVoskresenovka,
+    id: '_1'
   },
   {
     name: 'Серышевский район',
-    image: riverTomSerishevskii
+    link: riverTomSerishevskii,
+    id: '_2'
   },
   {
     name: 'Река Томь',
-    image: riverTomRiver
+    link: riverTomRiver,
+    id: '_3'
   },
   {
     name: 'Небо над рекой Томь',
-    image: riverTomSky
+    link: riverTomSky,
+    id: '_4'
   },
   {
     name: 'Ночной костёр',
-    image: riverTomFire
+    link: riverTomFire,
+    id: '_5'
   },
   {
     name: 'Песчаный берег Томи',
-    image: riverTomSandShore
+    link: riverTomSandShore,
+    id: '_6'
   }
 ];
 
