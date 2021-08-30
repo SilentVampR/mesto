@@ -1,8 +1,9 @@
 import './index.css';
 import {
   classNamesSettings,
-  url,
-  apiToken
+  yandexMestoApiURL,
+  apiToken,
+  myId
 } from "../constants/constants.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
@@ -12,14 +13,109 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import Section from '../components/Section.js';
 import Api from '../components/Api.js';
 
-const api = new Api({url: url,
+const api = new Api({apiURL: yandexMestoApiURL,
   headers: {
     authorization: apiToken,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json; charset=UTF-8'
   }
 });
 
-api.getUserInfo();
+const renderLoading = (isLoading, popup) => {
+  const submitButtonElement = popup.querySelector('.popup__submit-button');
+  if(isLoading){
+    submitButtonElement.textContent = "Сохранение...";
+  } else {
+    submitButtonElement.textContent = "Сохранить"
+  }
+}
+
+/* PROFILE EDIT FORM */
+const profileSection  = document.querySelector('.profile');
+const profileNameElement = profileSection.querySelector(classNamesSettings.profileNameSelector);
+const profileAboutElement = profileSection.querySelector(classNamesSettings.profileAboutSelector);
+const profileAvatarElement = profileSection.querySelector(classNamesSettings.profileAvatarSelector);
+const profileButton = profileSection.querySelector('.profile__edit-button');
+
+api.getUserInfo()
+  .then((result) => {
+    profileNameElement.textContent = result.name;
+    profileAboutElement.textContent = result.about;
+    profileAvatarElement.src = result.avatar;
+    profileAvatarElement.alt = result.name;
+  })
+  .catch(err => console.log(err))
+
+
+const userInfo = new UserInfo({
+  profileNameSelector: classNamesSettings.profileNameSelector,
+  profileAboutSelector: classNamesSettings.profileAboutSelector
+});
+
+const editProfilePopup = new PopupWithForm({
+  formSelector: classNamesSettings.formSelector,
+  inputSelector: classNamesSettings.inputSelector,
+  formSubmitCallback: (data) => {
+    renderLoading(true, editProfilePopup._popup);
+    api.editUserInfo(data)
+      .then(() => {
+        userInfo.setUserInfo(data);
+      })
+      .then(() => {
+        renderLoading(false, editProfilePopup._popup);
+      })
+      .catch(err => console.log(err))
+  }
+}, '.popup_type_profile-edit');
+
+const validatorForProfileForm = new FormValidator(classNamesSettings, editProfilePopup._formElement);
+validatorForProfileForm.enableValidation();
+
+const handlerOpenProfile = () => {
+  const { name, about } = userInfo.getUserInfo();
+  editProfilePopup._popup.querySelector('.popup__input_author_name').value = name;
+  editProfilePopup._popup.querySelector('.popup__input_author_about').value = about;
+  validatorForProfileForm.hideInputErrors();
+  editProfilePopup.open();
+}
+editProfilePopup.setEventListeners();
+profileButton.addEventListener('click', handlerOpenProfile);
+
+/* EDIT AVATAR */
+
+const changeAvatarImg = (link) => {
+  profileAvatarElement.src = link;
+}
+
+const editAvatar = new PopupWithForm({
+  formSelector: classNamesSettings.formSelector,
+  inputSelector: classNamesSettings.inputSelector,
+  formSubmitCallback: (data) => {
+    renderLoading(true, editAvatar._popup);
+    api.editAvatar(data)
+      .then(result => {
+        changeAvatarImg(result.avatar);
+      })
+      .then(() => {
+        renderLoading(false, editAvatar._popup);
+      })
+      .catch(err => console.log(err))
+  }
+}, '.popup_type_avatar-edit');
+
+const validatorForEditAvatarForm = new FormValidator(classNamesSettings, editAvatar._formElement);
+validatorForEditAvatarForm.enableValidation();
+
+const handleOpenAvatarEdit = () => {
+  validatorForEditAvatarForm.hideInputErrors();
+  editAvatar.open();
+}
+
+editAvatar.setEventListeners();
+
+const editAvatarButton = profileSection.querySelector('.profile__edit-avatar');
+editAvatarButton.addEventListener('click', handleOpenAvatarEdit);
+
+
 /* CARDS */
 
 const popupImage = new PopupWithImage('.popup_type_image-overlay');
@@ -34,14 +130,38 @@ const getCardElement = (item) => {
     confirmOpener: () => {
       confirmPopup._popup.querySelector('.popup__input_place_id').value = item._id;
       confirmPopup.open();
+    },
+    handleLikeButton: (evt) => {
+      const cardElement = document.querySelector(`#${CSS.escape(card._id)}`);
+      const likeCounterElement = cardElement.querySelector('.card__like-counter');
+      const likeButtonElement = evt.target;
+      if(likeButtonElement.classList.contains('card__like-button_active')){
+        api.removeLike(item._id)
+          .then(result => {
+            likeButtonElement.classList.remove('card__like-button_active');
+            likeCounterElement.textContent = result.likes.length;
+          })
+          .catch(err => console.log(err));
+      } else {
+        api.addLike(item._id)
+          .then(result => {
+            likeButtonElement.classList.add('card__like-button_active');
+            likeCounterElement.textContent = result.likes.length;
+          })
+          .catch(err => console.log(err));
+      }
     }
-   }, classNamesSettings.templateId);
-   return card.generateCard();
+  }, classNamesSettings.templateId, myId);
+  return card.generateCard();
 }
 
 const deleteCard = (data) => {
-  const cardToDelete = document.querySelector(`#${CSS.escape(data.placeId)}`);
-  cardToDelete.remove();
+  api.removeCard(data.placeId)
+    .then(() => {
+      const cardToDelete = document.querySelector(`#${CSS.escape(data.placeId)}`);
+      cardToDelete.remove();
+    })
+    .catch(err => console.log(err));
 }
 
 const confirmPopup = new PopupWithForm({
@@ -73,40 +193,6 @@ api.getInitialCards()
     console.log(err);
   });
 
-
-
-/* PROFILE EDIT FORM */
-const profileSection  = document.querySelector('.profile');
-const profileButton = profileSection.querySelector('.profile__edit-button');
-
-const userInfo = new UserInfo({
-  profileNameSelector: classNamesSettings.profileNameSelector,
-  profileAboutSelector: classNamesSettings.profileAboutSelector
-});
-
-const editProfilePopup = new PopupWithForm({
-  formSelector: classNamesSettings.formSelector,
-  inputSelector: classNamesSettings.inputSelector,
-  formSubmitCallback: (data) => {
-    userInfo.setUserInfo(data);
-  }
-}, '.popup_type_profile-edit');
-
-/* VALIDATOR */
-const validatorForProfileForm = new FormValidator(classNamesSettings, editProfilePopup._formElement);
-validatorForProfileForm.enableValidation();
-
-const handlerOpenProfile = () => {
-  const { name, about } = userInfo.getUserInfo();
-  editProfilePopup._popup.querySelector('.popup__input_author_name').value = name;
-  editProfilePopup._popup.querySelector('.popup__input_author_about').value = about;
-  validatorForProfileForm.hideInputErrors();
-  editProfilePopup.open();
-}
-editProfilePopup.setEventListeners();
-profileButton.addEventListener('click', handlerOpenProfile);
-
-
 /*NEW PLACE ADD FORM*/
 
 const newPlaceAddButton = document.querySelector('.add-button');
@@ -115,12 +201,20 @@ const newPlace = new PopupWithForm({
   formSelector: classNamesSettings.formSelector,
   inputSelector: classNamesSettings.inputSelector,
   formSubmitCallback: (data) => {
-    addElement({link: data.placeUrl, name: data.placeName, id: Math.random() * 100});
+    renderLoading(true, newPlace._popup);
+    api.addNewPlace(data)
+      .then((result) => {
+        createSection([result]);
+      })
+      .then(() => {
+        renderLoading(false, newPlace._popup);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 }, '.popup_type_new-place');
 
-
-/* VALIDATOR */
 const validatorForNewPlaceForm = new FormValidator(classNamesSettings, newPlace._formElement);
 validatorForNewPlaceForm.enableValidation();
 
@@ -133,28 +227,4 @@ newPlace.setEventListeners();
 
 newPlaceAddButton.addEventListener('click', handleOpenNewPlace);
 
-const changeAvatarImg = (link) => {
-  document.querySelector('.profile__avatar').src = link;
-}
 
-const editAvatar = new PopupWithForm({
-  formSelector: classNamesSettings.formSelector,
-  inputSelector: classNamesSettings.inputSelector,
-  formSubmitCallback: (data) => {
-    console.log(data)
-    changeAvatarImg(data.avatarUrl);
-  }
-}, '.popup_type_avatar-edit');
-
-const validatorForEditAvatarForm = new FormValidator(classNamesSettings, editAvatar._formElement);
-validatorForEditAvatarForm.enableValidation();
-
-const handleOpenAvatarEdit = () => {
-  validatorForEditAvatarForm.hideInputErrors();
-  editAvatar.open();
-}
-
-editAvatar.setEventListeners();
-
-const editAvatarButton = profileSection.querySelector('.profile__edit-avatar');
-editAvatarButton.addEventListener('click', handleOpenAvatarEdit);
