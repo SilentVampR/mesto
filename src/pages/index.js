@@ -139,14 +139,14 @@ const getCardElement = (item) => {
         api.removeLike(item._id)
           .then(result => {
             likeButtonElement.classList.remove('card__like-button_active');
-            likeCounterElement.textContent = result.likes.length;
+            likeCounterElement.textContent = card._likesCount(result.likes);
           })
           .catch(err => console.log(err));
       } else {
         api.addLike(item._id)
           .then(result => {
             likeButtonElement.classList.add('card__like-button_active');
-            likeCounterElement.textContent = result.likes.length;
+            likeCounterElement.textContent = card._likesCount(result.likes);
           })
           .catch(err => console.log(err));
       }
@@ -174,24 +174,13 @@ const confirmPopup = new PopupWithForm({
 
 confirmPopup.setEventListeners();
 
-const createSection = (result) => {
-  const cardsSection = new Section ({
-    items: result,
-    renderer: (item)=> {
-      cardsSection.addItem(getCardElement(item));
-    }
-  }, classNamesSettings.sectionCards);
-  cardsSection.renderItem();
-}
+const cardsSection = new Section ({
+  renderer: (item)=> {
+    cardsSection.addItem(getCardElement(item));
+  }
+}, classNamesSettings.sectionCards, api);
 
-
-api.getInitialCards()
-  .then(result => {
-    createSection(result);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+cardsSection.generateItems();
 
 /*NEW PLACE ADD FORM*/
 
@@ -204,7 +193,7 @@ const newPlace = new PopupWithForm({
     renderLoading(true, newPlace._popup);
     api.addNewPlace(data)
       .then((result) => {
-        createSection([result]);
+        cardsSection.saveItem(result);
       })
       .then(() => {
         renderLoading(false, newPlace._popup);

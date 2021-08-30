@@ -5,7 +5,6 @@ export default class Card {
     this._id = data._id;
     this._ownerId = data.owner._id;
     this._likesArr = data.likes;
-    this._likesCount = data.likes.length;
     this._templateSelector = templateSelector;
     this._myId = myId;
     this._imageOpener = imageOpener;
@@ -25,9 +24,21 @@ export default class Card {
     return cardElement;
   }
 
+  _likesCount(likesArray){
+    return likesArray.length;
+  }
+
   _setEventListeners(){
     this._element.querySelector('.card__like-button').addEventListener('click', this._handleLikeButton);
     this._element.querySelector('.card__image').addEventListener('click', this._imageOpener);
+  }
+
+  _generateLike() {
+    this._likesArr.forEach((like) => {
+      if(like._id === this._myId) {
+        this._element.querySelector('.card__like-button').classList.add('card__like-button_active');
+      }
+    })
   }
 
   generateCard() {
@@ -37,17 +48,13 @@ export default class Card {
     cardImageTemplate.src = this._link;
     cardImageTemplate.alt = this._name;
     this._element.querySelector('.card__title').textContent = this._name;
-    this._element.querySelector('.card__like-counter').textContent = this._likesCount;
-    this._likesArr.forEach((like) => {
-      if(like._id === this._myId) {
-        this._element.querySelector('.card__like-button').classList.add('card__like-button_active');
-      }
-    })
+    this._element.querySelector('.card__like-counter').textContent = this._likesCount(this._likesArr);
     if(this._ownerId === this._myId){
       const deleteButton = this._element.querySelector('.card__delete-button');
       deleteButton.classList.add('card__delete-button_active');
       deleteButton.addEventListener('click', this._confirmOpener);
     }
+    this._generateLike();
     this._setEventListeners();
     return this._element;
   }

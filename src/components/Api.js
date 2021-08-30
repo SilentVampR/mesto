@@ -4,15 +4,19 @@ export default class Api {
     this._headers = headers;
   }
 
+  _checkResponse(res, text) {
+    if(res.ok){
+      return res.json();
+    }
+    return Promise.reject(`${text} - ${res.status}`);
+  }
+
   getUserInfo() {
     return fetch(this._apiURL + '/users/me', {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка получения информации о пользователе с сервера - ${res.status}`);
+      return this._checkResponse(res, 'Ошибка получения информации о пользователе с сервера');
     })
   }
 
@@ -21,10 +25,7 @@ export default class Api {
       headers: this._headers
     })
       .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        return Promise.reject(`Ошибка получения карточек с сервера - ${res.status}`);
+        return this._checkResponse(res, 'Ошибка получения карточек с сервера');
       })
   }
 
@@ -38,10 +39,7 @@ export default class Api {
       headers: this._headers
     })
       .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        return Promise.reject(`Ошибка добавления карточки на сервер - ${res.status}`);
+        return this._checkResponse(res, 'Ошибка добавления карточки на сервер');
       })
   }
 
@@ -51,10 +49,7 @@ export default class Api {
       headers: this._headers
     })
       .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        return Promise.reject(`Ошибка удаления карточки с сервера - ${res.status}`);
+        return this._checkResponse(res, 'Ошибка удаления карточки с сервера');
       })
   }
 
@@ -64,10 +59,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка добавления лайка для карточки - ${res.status}`);
+      return this._checkResponse(res, 'Ошибка добавления лайка для карточки');
     })
   }
 
@@ -77,10 +69,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка удаления лайка для карточки - ${res.status}`);
+      return this._checkResponse(res, 'Ошибка удаления лайка для карточки');
     })
   }
 
@@ -93,10 +82,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка изменения аватара пользователя - ${res.status}`);
+      return this._checkResponse(res, 'Ошибка изменения аватара пользователя');
     })
   }
 
@@ -110,10 +96,7 @@ export default class Api {
       headers: this._headers
     })
     .then(res => {
-      if(res.ok){
-        return res.json();
-      }
-      return Promise.reject(`Ошибка изменения информации пользователя - ${res.status}`);
+      return this._checkResponse(res, 'Ошибка изменения информации пользователя');
     })
   }
 }
