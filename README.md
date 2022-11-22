@@ -44,4 +44,8 @@
 **Проектная работа**
 [Ссылка на проектную работу](https://silentvampr.github.io/mesto/)
 
+**Стек**
+
+HTML, CSS, JS, Webpack
+
 | Да прибудет с вами сила |
